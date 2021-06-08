@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+</head>
+
+<body>
+    <header>
+        <section>
+            <h1>NeoSudoku</h1>
+            <nav class="nav-bar">
+                <ul>
+                    <li><div class="dropdown">
+                        <a href="#">New game</a>
+                        <div class="dropdown-content">
+                          <a href="#">Easy</a>
+                          <a href="#">Medium</a>
+                          <a href="#">Hard</a>
+                          <a href="#">Expert</a>
+                        </div>
+                      </div></li>
+                      <li><a href="#">Getting started</a></li>
+                    <li><a href="#">Useful tips and articles</a></li>
+                    <li><a href="#">My profile</a></li>
+                    <li><a href="#">Sudoku solver</a></li>
+                </ul>
+            </nav>
+        </section>
+    </header>
+    <div class="my-container">
+
+        <main>
+            <section id="sudoku-section">
+                <div id="upper-options">
+                    <p>Difficulty: Easy</p>
+                    <p>Check for mistakes <input type="checkbox"></input></p>
+                    <button><i class="fas fa-pause"></i></button>
+                </div>
+                <div id="sudoku-game-wrapper">
+                    <div class="sudoku-container">
+                        <div class="big-square">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                        </div>
+                        <div class="big-square">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                        </div>
+                        <div class="big-square">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                        </div>
+                        <div class="big-square">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                        </div>
+                        <div class="big-square">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                        </div>
+                        <div class="big-square">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                        </div>
+                        <div class="big-square">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                        </div>
+                        <div class="big-square">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                        </div>
+                        <div class="big-square">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div id="game-controls">
+                        <div id="options-menu">
+                            <button type="button">Return</button>
+                            <button>Delete</button>
+                            <button>Hint</button>
+                        </div>
+                        <div id="digits">
+                            <button>1</button>
+                            <button>
+                                2
+                            </button>
+                            <button>
+                                3
+                            </button>
+                            <button>
+                                4
+                            </button>
+                            <button>
+                                5
+                            </button>
+                            <button>
+                                6
+                            </button>
+                            <button>
+                                7
+                            </button>
+                            <button>
+                                8
+                            </button>
+                            <button>
+                                9
+                            </button>
+                        </div>
+                        <button>Finish</button>
+                    </div>
+                </div>
+
+            </section>
+            
+        </main>
+        <aside>
+            <div class="aside-heading">
+                Last sudokus
+            </div>
+            <ul>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+                <li>
+                    <p>Diff.: medium</p>
+                    <p>Type: classical</p>
+                    <i class="fas fa-check"></i>
+                </li>
+            </ul>
+
+        </aside>
+    </div>
+</body>
+
+</html>
