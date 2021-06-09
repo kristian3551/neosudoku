@@ -1,0 +1,47 @@
+.aside-heading {
+    width: 100%;
+    height: 5%;
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 1px solid black;
+}
+
+.aside ul {
+    padding-left: 0;
+    width: 100%;
+    height: 86%;
+    overflow-y: scroll;
+}
+
+.aside ul li {
+    width: 100%;
+    height: 9%;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.aside ul li:last-child {
+    border-bottom: none;
+ }
+
+.aside ul li p {
+    width: 35%;
+    font-size: 13px;
+    text-align: center;
+}
+
+.aside ul li i {
+    width: 30%;
+    text-align: center;
+}
+
+.aside {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 18%;
+    height: 500px;
+    margin: 10px 2%;
+}

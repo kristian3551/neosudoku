@@ -1,0 +1,24 @@
+.credentials-section {
+    width: 30%;
+    margin-left: 35%;
+    text-align: center;
+}
+
+.credentials-section img {
+    width: 70%;
+    height: auto;
+    border-radius: 50%;
+    position: relative;
+    top: -4rem;
+}
+
+.position-below-img{
+    margin-top: 0;
+    padding-top: 0;
+    position: relative;
+    top: -3rem;
+}
+
+.underline {
+    text-decoration: underline;
+}

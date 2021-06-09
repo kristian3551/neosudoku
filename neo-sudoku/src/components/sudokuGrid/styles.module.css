@@ -1,0 +1,28 @@
+.sudoku-container {
+    width: 450px;
+    height: 450px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    flex: 0 1 450px;
+}
+
+.big-square {
+    width: calc(450px / 3 - 2px);
+    height: calc(450px / 3 - 1.7px);
+    background-color: aliceblue;
+    border: 1px solid black;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: auto auto auto;
+}
+
+.big-square input {
+    width: calc(100% - 5px);
+    border: 0.5px solid rgb(233, 236, 240);
+    text-align: center;
+    color: grey;
+    font-size: 20px;
+
+}
+

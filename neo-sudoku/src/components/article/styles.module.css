@@ -1,0 +1,13 @@
+.main {
+    width: 55%;
+    margin-left: 15%;
+}
+
+.main h2, .main h1 {
+    color: rgb(51, 51, 51);
+}
+
+.main img {
+    width: 80%;
+    height: auto;
+}
