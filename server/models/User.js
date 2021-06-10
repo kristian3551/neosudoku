@@ -29,7 +29,7 @@ const userSchema = new Schema({
     birthDate: String,
     profilePictureURL: String,
     currentSudoku: {
-        type: ObjectId, ref: 'Sudoku'
+        type: Object
     },
     solvedSudokus: [{type: ObjectId, ref: 'Sudoku'}],
     ratingsByType: {

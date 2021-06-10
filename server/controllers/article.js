@@ -2,7 +2,11 @@ const { Article } = require('../models');
 
 module.exports = {
     get: (req, res, next) => {
+        const page = req.query.page;
         Article.find()
+            .then((articles) => {
+                return articles.slice(5 * page - 5, 5 * page);
+            })
             .then((articles) => res.send(articles.map(e => {
                 let length = 0;
                 let cardContent = [];
