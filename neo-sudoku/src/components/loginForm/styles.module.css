@@ -9,6 +9,7 @@
 
 .form h1 {
     text-align: center;
+    color: rgb(52, 72, 97);
 }
 
 .form * {
@@ -17,6 +18,7 @@
 
 .form label {
     margin-left: 10%;
+    color: rgb(52, 72, 97);
 }
 
 .form div {
@@ -30,6 +32,8 @@
     width: 70%;
     height: 20%;
     margin-left: 10%;
+    border: 1px solid rgb(0, 114, 227);
+    border-radius: 5px;
 }
 
 .firstInput {
@@ -45,4 +49,10 @@
     border: none;
     color: white;
     border-radius: 10px;
+}
+
+
+.form input:focus {
+    outline: none !important;
+    border: 1px solid rgb(52, 72, 97);
 }

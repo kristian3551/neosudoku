@@ -2,7 +2,7 @@
     width: 30%;
     margin-left: 32.5%;
     margin-top: 10vh;
-    height: 60vh;
+    height: 70vh;
     border: 1px solid black;
     border-radius: 10px;
 }
@@ -20,8 +20,8 @@
 
 .credentials-div {
     width: 100%;
-    height: 30%;
-    margin: 0;
+    height: 35%;
+    margin: 3vh;
 }
 
 .credentials-div > input {
@@ -32,7 +32,7 @@
     border-radius: 5px;
 }
 
-.firstInput {
+.input-margin{
     margin-bottom: 1vh;
 }
 
@@ -55,7 +55,7 @@
     margin-bottom: 4vh;
 }
 
-.name-div > div  {
+.name-div div  {
     width: 49%;
 }
 
@@ -63,7 +63,7 @@
     margin: 0;
 }
 
-.name-div > div > input {
+.name-div div input {
     height: 50%;
     border: 1px solid rgb(0, 114, 227);
     border-radius: 5px;

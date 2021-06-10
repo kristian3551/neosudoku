@@ -9,7 +9,7 @@ const GetStartedMain : React.FunctionComponent = () => {
         <section>
             <h2 className={styles['h2']}>NeoSudoku</h2>
                 <p>A free online platform for competitive sudoku solving.
-                    Start by <a className={styles['sign-link']} href="#">signing in!</a>
+                    Start by <a className={styles['sign-link']} href="/register">SIGNING UP!</a>
                 </p>
             </section>
             <section>

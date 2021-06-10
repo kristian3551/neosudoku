@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styles from './styles.module.css';
+import { useHistory } from 'react-router-dom';
+
 
 type HandleChangeType = (e: React.ChangeEvent<HTMLInputElement>,
     type: 'username' | 'password') => void;
@@ -7,6 +9,7 @@ type HandleChangeType = (e: React.ChangeEvent<HTMLInputElement>,
 const LoginForm : React.FunctionComponent = () => {
     const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
+    const history = useHistory();
 
     const handleChange : HandleChangeType = (e, type) => {
         switch(type) {
@@ -14,6 +17,11 @@ const LoginForm : React.FunctionComponent = () => {
             case 'password': setPassword(e.target.value); break;
         }
     } 
+
+    const handleLogin : MouseEventHandler<HTMLButtonElement> = (e) => {
+        e.preventDefault();
+        history.push('/');
+    }
 
     return (<form className={styles['form']} action="">
     <h1>Account login</h1>
@@ -28,7 +36,7 @@ const LoginForm : React.FunctionComponent = () => {
         <input type="password" placeholder="Password"
         onChange={(e) => handleChange(e, 'password')}/>
     </div>
-    <button type="submit">Sign in</button>
+    <button type="submit" onClick={handleLogin}>Sign in</button>
 
 </form>);
 }
