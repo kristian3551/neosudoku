@@ -40,10 +40,14 @@ module.exports = {
     put: (req, res, next) => {
         const id = req.params.id;
         const { date, matrix, rating, difficulty, type } = req.body;
-        models.Sudoku.updateOne({ _id, id }, {
-            date, matrix, rating,
-            difficulty, type
-        })
+        let newSudoku = {};
+        if(date) newSudoku.date = date;
+        if(matrix) newSudoku.matrix = matrix;
+        if(rating) newSudoku.rating = rating;
+        if(difficulty) newSudoku.difficulty = difficulty;
+        if(type) newSudoku.type = type;
+        
+        models.Sudoku.updateOne({ _id: id }, newSudoku)
             .then((updatedSudoku) => {
                 res.send(updatedSudoku);
             })

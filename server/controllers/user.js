@@ -5,25 +5,31 @@ const jwt = require('../utils/jwt');
 
 module.exports = {
     get: (req, res, next) => {
-        models.User.find()
+        models.User.find().populate('currentSudoku')
             .then((users) => res.send(users))
             .catch(next)
     },
     getUserCurrentSudoku: (req, res, next) => {
         const id = req.params.id;
         models.User.find({ _id: id }).populate('currentSudoku')
-            .then((user) => res.send(user.currentSudoku))
+            .then((user) => res.send(user))
             .catch(next)
     },
     post: {
         register: (req, res, next) => {
             const { username, password, firstName, lastName } = req.body;
-            models.User.create({ username, password, firstName, lastName })
-                .then((createdUser) => {
+            const user = new models.User({ username, password, firstName, lastName });
+            user.save().then((createdUser) => {
                     const token = utils.jwt.createToken({ id: createdUser._id });
                     res.header('Authorization', token).send(createdUser);
-                })
-                .catch(next)
+            })
+            .catch(next);
+            // models.User.create({ username, password, firstName, lastName })
+            //     .then((createdUser) => {
+            //         const token = utils.jwt.createToken({ id: createdUser._id });
+            //         res.header('Authorization', token).send(createdUser);
+            //     })
+            //     .catch(next)
         },
         verifyUser: (req, res) => {
             const { token } = req.body;
@@ -78,7 +84,10 @@ module.exports = {
         editCredentials: (req, res, next) => {
             const id = req.params.id;
             const { username, password } = req.body;
-            models.User.update({ _id: id }, { username, password })
+            let newCredentials = {};
+            if(username) newCredentials.username = username;
+            if(password) newCredentials.password = password;
+            models.User.update({ _id: id }, newCredentials)
                 .then((updatedUser) => res.send(updatedUser))
                 .catch(next)
         },
@@ -100,7 +109,7 @@ module.exports = {
             const id = req.params.id;
             const { currentSudokuId } = req.body;
             models.User.updateOne({ _id: id }, { currentSudoku: currentSudokuId })
-                .then((updatedUser) => res.send(updatedUser.currentSudoku))
+                .then((updatedUser) => res.send(updatedUser))
                 .catch(next);
         },
         addSudokuToSolved: (req, res, next) => {

@@ -3,7 +3,7 @@ const router = require('express').Router();
 
 router.get('/', controllers.user.get);
 
-router.get('/currentSudoku', controllers.user.getUserCurrentSudoku);
+router.get('/:id/currentSudoku', controllers.user.getUserCurrentSudoku);
 
 router.post('/register', controllers.user.post.register);
 
