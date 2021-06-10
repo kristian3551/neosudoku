@@ -6,20 +6,22 @@ module.exports = {
             .then((articles) => res.send(articles.map(e => {
                 let length = 0;
                 let cardContent = [];
-                for(const e1 in e.content) {
-                    if(e1.text.length + length <= 500) {
-                        cardContent.push(e1);
-                        length += e1.text.length;
+                for(const e1 in [...e.content]) {
+                    const element = e.content[e1];
+                    if(element.content.length + length <= 500) {
+                        cardContent.push(element);
+                        length += element.content.length;
                     }
                     else {
-                        cardContent.push({ type: e1.type, text: e1.text.slice(0, 500 - length)});
+                        cardContent.push({ type: element.type, content: element.content.slice(0, 500 - length)});
                         break;
                     }
                 }
                 return {
                         title: e.title,
                         imageURL: e.imageURL,
-                        content: cardContent
+                        content: cardContent,
+                        _id: e._id
                         };
             })))
             .catch(next);
