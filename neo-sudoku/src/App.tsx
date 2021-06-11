@@ -25,6 +25,7 @@ const App : React.FunctionComponent<{ login: Function;}> = ({ login }) => {
   useEffect(() => {
       const token = getCookieValue('x-auth-token');
       if (!token) return;
+      console.log(token);
       userApi.verify(token).then((e: any) => e.json())
       .then(user => {
         console.log(user);
@@ -46,7 +47,6 @@ const App : React.FunctionComponent<{ login: Function;}> = ({ login }) => {
             <Route exact path="/register" component={RegisterPage}/>
           </Router>
     </div>
-
   );
 }
 

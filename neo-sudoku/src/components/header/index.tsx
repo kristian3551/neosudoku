@@ -1,11 +1,18 @@
 import React from 'react';
 import styles from './styles.module.css';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import actions from '../../redux/actions/auth';
 
-const Header: React.FunctionComponent = () => {
+const Header: React.FunctionComponent<{ logout: Function}> = ({ logout }) => {
     const loggedIn : boolean = useSelector((state: any) => !!state ? 
     state.loggedIn : false);
+    const history = useHistory();
+
+    const handleLogout = () => {
+        logout();
+        document.cookie = 'x-auth-token=';
+    }
 
     return (<header className={styles['header']}>
         <section className={styles['header-section']}>
@@ -29,7 +36,8 @@ const Header: React.FunctionComponent = () => {
                             </div>
                         </li>
                         <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/profile">My profile</Link></li>
-                        <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/logout">Logout</Link></li></>) :
+                        <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/"
+                        onClick={handleLogout}>Logout</Link></li></>) :
                         (<><li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/login">Sign in</Link></li>
                             <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/register">Register</Link></li></>)}
 
@@ -40,4 +48,8 @@ const Header: React.FunctionComponent = () => {
     </header>);
 }
 
-export default Header;
+export default connect(null, (dispatch) => {
+    return {
+        logout: () => dispatch(actions.logout())
+    }
+})(Header);

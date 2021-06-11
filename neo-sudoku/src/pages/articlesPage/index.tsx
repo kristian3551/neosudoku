@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 type ArticleType = {title: string; imageURL: string; content: string;};
 
 const ArticlesPage = () => {
-    const [articles, setArticles] = useState<React.SetStateAction<any[]>>([]);
+    const [articles, setArticles] = useState<ArticleType[]>([]);
     const { search } = useLocation();
     const page = search.split('=')[1];
 

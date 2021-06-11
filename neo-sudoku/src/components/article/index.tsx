@@ -14,8 +14,8 @@ const Article: React.FunctionComponent<Props> = ({ title, imageURL, content}) =>
 
     const renderContent = () => {
         return content.map((e, i) => {
-            return e.type == 'heading' ? (<h2>{e.content}</h2>)
-            : (<p>{e.content}</p>);
+            return e.type == 'heading' ? (<h2 key={i}>{e.content}</h2>)
+            : (<p key={i}>{e.content}</p>);
         });
     }
 

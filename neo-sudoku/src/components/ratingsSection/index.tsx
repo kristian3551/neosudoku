@@ -11,18 +11,12 @@ const RatingsSection : React.FunctionComponent<Props> = ({ ratings }) => {
     return ( <section className={styles["ratings-section"]}>
     <h2>Ratings</h2>
     <div className={styles["flex-container"]}>
-        <article>
-            <h4>Classical (9x9)</h4>
-            <p>{ratings['classical']} | 6 sudokus</p>
-        </article>
-        <article>
-            <h4>Irregular (6x6)</h4>
-            <p>1500 | 6 sudokus</p>
-        </article>
-        <article>
-            <h4>Killer</h4>
-            <p>1500 | 6 sudokus</p>
-        </article>
+        {Object.keys(ratings).map((e,i) => {
+            return (<article>
+                <h4>{e}</h4>
+                <p>{ratings[e]} | 6 sudokus</p>
+            </article>)
+        })}
     </div>
 </section>)
 }
