@@ -15,22 +15,22 @@ import userApi from './services/auth';
 
 const App : React.FunctionComponent<{ login: Function;}> = ({ login }) => {
 
-  // const getCookieValue = (name: string) => {
-  //   if(!document.cookie) return;
-  //   let arr : any = document.cookie.split('; ');
-  //   arr = arr.map((e: string) => e.split('='));
-  //   return arr.find((e: string) => e[0] === name)[1];
-  // }
+  const getCookieValue = (name: string) => {
+    if(!document.cookie) return;
+    let arr : any = document.cookie.split('; ');
+    arr = arr.map((e: string) => e.split('='));
+    return arr.find((e: string) => e[0] === name)[1];
+  }
 
-  // useEffect(() => {
-  //     const token = getCookieValue('x-auth-token');
-  //     if (!token) return;
-  //     console.log(token);
-  //     userApi.verify(token).then((e: any) => e.json())
-  //     .then(user => {
-  //       login(user);
-  //     })
-  // }, []);
+  useEffect(() => {
+      const token = getCookieValue('x-auth-token');
+      if (!token) return;
+      userApi.verify(token).then((e: any) => e.json())
+      .then(user => {
+        console.log(user);
+        login(user);
+      })
+  }, []);
 
   return (
     <div className="App">

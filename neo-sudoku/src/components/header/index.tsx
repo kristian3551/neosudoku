@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Header: React.FunctionComponent = () => {
-    // const loggedIn = useSelector((state: any) => state.loggedIn);
+    const loggedIn : boolean = useSelector((state: any) => !!state ? 
+    state.loggedIn : false);
 
     return (<header className={styles['header']}>
         <section className={styles['header-section']}>
@@ -15,7 +16,7 @@ const Header: React.FunctionComponent = () => {
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/getStarted">Getting started</Link></li>
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/articles?page=1">Useful tips and articles</Link></li>
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/sudokuSolver">Sudoku solver</Link></li>
-                    {false ? (<>
+                    {loggedIn ? (<>
                         <li className={styles['nav-bar-ul-li']}>
                             <div className={styles['dropdown']}>
                                 <Link className={styles['nav-bar-ul-li-a']} to="#">New game</Link>
