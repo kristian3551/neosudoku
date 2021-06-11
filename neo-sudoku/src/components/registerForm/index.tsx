@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import styles from './styles.module.css';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import actions from '../../redux/actions/auth';
+import userApi from '../../services/auth';
 
 type HandleChangeType = (e: React.ChangeEvent<HTMLInputElement>,
     type: 'username' | 'password' | 'firstName' 
     | 'lastName' | 'repeatPassword') => void;
 
-const RegisterForm : React.FunctionComponent = () => {
+const RegisterForm : React.FunctionComponent<{ login: Function }> = ({ login }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
@@ -26,7 +29,12 @@ const RegisterForm : React.FunctionComponent = () => {
 
     const handleRegister : React.MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
-        history.push('/');
+        userApi.register(username, password, firstName, lastName)
+            .then((e: any) => e.json())
+            .then(user => {
+                login(user);
+                history.push('/');
+            })
     }
 
     return (<form className={styles['form']} action="">
@@ -59,4 +67,8 @@ const RegisterForm : React.FunctionComponent = () => {
 </form>);
 }
 
-export default RegisterForm;
+export default connect(null, (dispatch) => {
+    return {
+        login: (user: Object) => dispatch(actions.login(user))
+    }
+})(RegisterForm);

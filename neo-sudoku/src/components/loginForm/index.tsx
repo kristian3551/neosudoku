@@ -1,12 +1,14 @@
 import React, { MouseEventHandler } from 'react';
 import styles from './styles.module.css';
 import { useHistory } from 'react-router-dom';
-
+import userApi from '../../services/auth';
+import { connect } from 'react-redux';
+import authActions from '../../redux/actions/auth';
 
 type HandleChangeType = (e: React.ChangeEvent<HTMLInputElement>,
     type: 'username' | 'password') => void;
 
-const LoginForm : React.FunctionComponent = () => {
+const LoginForm : React.FunctionComponent<{ login: Function }> = ({ login }) => {
     const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
     const history = useHistory();
@@ -18,8 +20,17 @@ const LoginForm : React.FunctionComponent = () => {
         }
     } 
 
-    const handleLogin : MouseEventHandler<HTMLButtonElement> = (e) => {
+    const handleLogin : MouseEventHandler<HTMLButtonElement> = async (e) => {
         e.preventDefault();
+        await userApi.login(username, password)
+            .then((e: any) => {
+                const token = e.headers.get('Authorization');
+                document.cookie = `x-auth-token=${token}`;
+                return e.json();
+            })
+            .then((user) => {
+                login(user);
+            });
         history.push('/');
     }
 
@@ -41,4 +52,8 @@ const LoginForm : React.FunctionComponent = () => {
 </form>);
 }
 
-export default LoginForm;
+export default connect(null, (dispatch) => {
+    return {
+        login: (user: any) => dispatch(authActions.login(user))
+    }
+})(LoginForm);

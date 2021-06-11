@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import GetStartedPage from './pages/getStartedPage';
 import ArticlesPage from './pages/articlesPage';
@@ -9,8 +9,30 @@ import NewGamePage from './pages/newGamePage';
 import LoginPage from './pages/loginPage';
 import RegisterPage from './pages/registerPage';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import authActions from './redux/actions/auth';
+import userApi from './services/auth';
 
-function App() {
+const App : React.FunctionComponent<{ login: Function;}> = ({ login }) => {
+
+  const getCookieValue = (name: string) => {
+    if(!document.cookie) return;
+    let arr : any = document.cookie.split('; ');
+    arr = arr.map((e: string) => e.split('='));
+    return arr.find((e: string) => e[0] === name)[1];
+  }
+
+  useEffect(() => {
+      const token = getCookieValue('x-auth-token');
+      if (!token) return;
+      console.log(token);
+      userApi.verify(token).then((e: any) => e.json())
+      .then(user => {
+        console.log(user);
+        login(user);
+      })
+  }, []);
+
   return (
     <div className="App">
         <Router>
@@ -25,8 +47,11 @@ function App() {
             <Route exact path="/register" component={RegisterPage}/>
           </Router>
     </div>
-
   );
 }
 
-export default App;
+export default connect(null, (dispatch) => {
+  return {
+    login: (user: Object) => dispatch(authActions.login(user))
+  }
+})(App);
