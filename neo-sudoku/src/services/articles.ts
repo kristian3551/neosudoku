@@ -1,5 +1,3 @@
-import { SetStateAction } from "react";
-
 const articlesURL = 'http://localhost:8000/api/article';
 
 const getAll : (page: number) => Promise<any> = async (page) => {

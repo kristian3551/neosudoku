@@ -19,7 +19,8 @@ const App : React.FunctionComponent<{ login: Function;}> = ({ login }) => {
     if(!document.cookie) return;
     let arr : any = document.cookie.split('; ');
     arr = arr.map((e: string) => e.split('='));
-    return arr.find((e: string) => e[0] === name)[1];
+    const xAuthToken = arr.find((e: string) => e[0] === name);
+    return !!xAuthToken ? xAuthToken[1] : '';
   }
 
   useEffect(() => {
