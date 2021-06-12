@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import Header from '../../components/header';
 import SudokuGrid from '../../components/sudokuGrid';
 import LastSudokusAside from '../../components/lastSudokusAside';
 import GameControls from '../../components/gameControls';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const NewGamePage : React.FunctionComponent = () => {
+interface Props {
+    user: Object;
+    loggedIn: boolean;
+}
+
+const NewGamePage : React.FunctionComponent<Props> = ({ user, loggedIn }) => {
+    const [currentSudoku, setCurrentSudoku] = useState<Array<any>>([]);
+
+    useEffect(() => {
+
+    })
+
     return (<>
+        {!loggedIn && (<Redirect to="/login"/>)}
         <Header/>
         <div className={styles["my-container"]}>
 
@@ -36,4 +50,9 @@ const NewGamePage : React.FunctionComponent = () => {
     </>);
 }
 
-export default NewGamePage;
+export default connect((state : { user: Object; loggedIn: boolean; }) => {
+    return {
+        user: !!state ? state.user : {},
+        loggedIn: !!state ? state.loggedIn : false
+    }
+})(NewGamePage);
