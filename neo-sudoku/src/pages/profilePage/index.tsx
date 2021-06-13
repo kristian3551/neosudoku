@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './styles.module.css';
 import Header from '../../components/header';
 import RatingsSection from '../../components/ratingsSection';
-import Log from '../../components/log';
 import LogSection from '../../components/logSection';
 import CredentialsSection from '../../components/credentialsSection';
 import { connect } from 'react-redux';
@@ -37,14 +36,14 @@ const ProfilePage : React.FunctionComponent<{
     </>)
 }
 
-export default connect((state: { user: Object, loggedIn: boolean}) => {
+export default connect((state: { auth: any}) => {
     return {
-        user: !!state ? state.user: {
+        user: !!state ? state.auth.user: {
             username: '',
             firstName: '',
             lastName: '',
             ratingsByType: {}
         },
-        loggedIn: !!state ? state.loggedIn : false
+        loggedIn: !!state ? state.auth.loggedIn : false
     }
 }, null)(ProfilePage);

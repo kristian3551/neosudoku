@@ -7,7 +7,7 @@ router.get('/:id', controllers.sudoku.getOne);
 
 router.get('/byDate/:date', controllers.sudoku.getByDate);
 
-router.get('/random/:type', controllers.sudoku.getRandomByType);
+router.get('/random/:difficulty', controllers.sudoku.getRandomByDifficulty);
 
 router.post('/', controllers.sudoku.post.create);
 
