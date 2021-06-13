@@ -4,7 +4,7 @@
     display: flex;
     flex-wrap: wrap;
     border: 1px solid black;
-    flex: 0 1 450px;
+    flex: 0 1 450px;;
 }
 
 .big-square {
@@ -23,6 +23,9 @@
     text-align: center;
     color: grey;
     font-size: 20px;
-
+    /* background-color: rgb(240, 245, 250) */
 }
 
+.big-square input:disabled {
+    background-color: white;
+}

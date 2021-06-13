@@ -1,16 +1,6 @@
 import actionTypes from '../actions/actionTypes';
-import * as redux from 'redux';
 
-
-// type IAuthReducer = (initialState: {
-//     user: Object;
-//     loggedIn: boolean;
-// }, action: { type: string, payload: Object }) => Object;
-
-
-
-
-const authReducer : any = (initialState = {
+const authReducer : any = (state = {
     user: {},
     loggedIn: false
 }, action: { type: string, payload: Object }) => {
@@ -27,6 +17,7 @@ const authReducer : any = (initialState = {
                 loggedIn: false
             }
         }
+        default: return state;
     }
 }
 

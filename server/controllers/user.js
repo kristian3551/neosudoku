@@ -24,12 +24,6 @@ module.exports = {
                     res.header('Authorization', token).send(createdUser);
             })
             .catch(next);
-            // models.User.create({ username, password, firstName, lastName })
-            //     .then((createdUser) => {
-            //         const token = utils.jwt.createToken({ id: createdUser._id });
-            //         res.header('Authorization', token).send(createdUser);
-            //     })
-            //     .catch(next)
         },
         verifyUser: (req, res) => {
             const { token } = req.body;
@@ -119,7 +113,7 @@ module.exports = {
             const { sudokuId } = req.body;
             models.User.updateOne({ _id: id}, 
                 { $push: { solvedSudokus: sudokuId }})
-                .then((updatedUser) => res.send(updatedUser.solvedSudokus))
+                .then((updatedUser) => res.send(updatedUser))
                 .catch(next);
         },
         setRating: (req, res, next) => {

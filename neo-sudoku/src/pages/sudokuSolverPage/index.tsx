@@ -7,7 +7,17 @@ const SudokuSolverPage : React.FunctionComponent = () => {
     return (<>
         <Header/>
         <main className={styles['main']}>
-            <SudokuGrid/>
+            <SudokuGrid 
+            sudoku={[[0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0]]}
+            />
             <button>Solve</button>
         </main>
     </>);

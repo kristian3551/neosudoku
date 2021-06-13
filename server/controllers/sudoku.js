@@ -18,9 +18,9 @@ module.exports = {
             .then((sudokus) => res.send(sudokus))
             .catch(next);
     },
-    getRandomByType: (req, res, next) => {
-        const type = req.params.type;
-        models.Sudoku.find({ type })
+    getRandomByDifficulty: (req, res, next) => {
+        const difficulty = req.params.difficulty;
+        models.Sudoku.find({ difficulty })
             .then((sudokus) => {
                 const randomSudokuIndex = Math.floor(Math.random() * sudokus.length);
                 res.send(sudokus[randomSudokuIndex]);

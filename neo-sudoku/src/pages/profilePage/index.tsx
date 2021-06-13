@@ -2,24 +2,26 @@ import React from 'react';
 import styles from './styles.module.css';
 import Header from '../../components/header';
 import RatingsSection from '../../components/ratingsSection';
-import Log from '../../components/log';
 import LogSection from '../../components/logSection';
 import CredentialsSection from '../../components/credentialsSection';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-const ProfilePage : React.FunctionComponent<{ user: {
-     username: string;
-     firstName: string;
-     lastName: string;
-     solvedSudokus: Array<any>;
-    ratingsByType: {
-        
-    }
-} }> = ({ user }) => {
+const ProfilePage : React.FunctionComponent<{ 
+    user: {
+        username: string;
+        firstName: string;
+        lastName: string;
+        solvedSudokus: Array<any>;
+        ratingsByType: {}
+    };
+    loggedIn: boolean;
+ }> = ({ user, loggedIn }) => {
     /*
     { 'classical': 2000,
             'irregular (6x6)': 1500, 'irregular (8x8)': 1600}*/
     return (<>
+    {!loggedIn && (<Redirect to="/login"/>)}
         <Header/>
         <main className={styles['main']}>
             <CredentialsSection username={!!user ? user.username : ''}
@@ -34,13 +36,14 @@ const ProfilePage : React.FunctionComponent<{ user: {
     </>)
 }
 
-export default connect((state: { user: Object, loggedIn: boolean}) => {
+export default connect((state: { auth: any}) => {
     return {
-        user: !!state ? state.user: {
+        user: !!state ? state.auth.user: {
             username: '',
             firstName: '',
             lastName: '',
             ratingsByType: {}
-        }
+        },
+        loggedIn: !!state ? state.auth.loggedIn : false
     }
 }, null)(ProfilePage);

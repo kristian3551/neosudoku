@@ -1,13 +1,12 @@
 import React from 'react';
 import styles from './styles.module.css';
 import { connect, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import actions from '../../redux/actions/auth';
 
 const Header: React.FunctionComponent<{ logout: Function}> = ({ logout }) => {
     const loggedIn : boolean = useSelector((state: any) => !!state ? 
-    state.loggedIn : false);
-    const history = useHistory();
+    state.auth.loggedIn : false);
 
     const handleLogout = () => {
         logout();
