@@ -3,13 +3,17 @@ import styles from './styles.module.css';
 import { connect, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import actions from '../../redux/actions/auth';
+import sudokuActions from '../../redux/actions/sudoku';
+import { useDispatch } from 'react-redux';
 
 const Header: React.FunctionComponent<{ logout: Function}> = ({ logout }) => {
     const loggedIn : boolean = useSelector((state: any) => !!state ? 
     state.auth.loggedIn : false);
+    const dispatch = useDispatch();
 
     const handleLogout = () => {
         logout();
+        dispatch(sudokuActions.deleteCurrentSudoku());
         document.cookie = 'x-auth-token=';
     }
 

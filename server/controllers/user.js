@@ -101,10 +101,8 @@ module.exports = {
         },
         setCurrentSudoku: (req, res, next) => {
             const id = req.params.id;
-            const { date, matrix, rating, difficulty, type } = req.body;
-            models.User.updateOne({ _id: id }, { currentSudoku: {
-                date, matrix, rating, difficulty, type
-            } })
+            const { date, matrix, rating, difficulty, type, _id, defaultMatrix, history, boxOnFocus } = req.body;
+            models.User.updateOne({ _id: id }, { currentSudoku: { date, matrix, rating, difficulty, type, _id, defaultMatrix, history, boxOnFocus } })
                 .then((updatedUser) => res.send(updatedUser))
                 .catch(next);
         },

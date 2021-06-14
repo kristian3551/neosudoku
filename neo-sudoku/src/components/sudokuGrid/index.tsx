@@ -8,10 +8,11 @@ interface Props {
     setDigit: Function;
     setBoxOnFocus: Function;
     defaultMatrix: any;
+    addToHistory: Function;
 }
 
-const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, setDigit, setBoxOnFocus }) => {
-    console.log(defaultMatrix);
+const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, setDigit, setBoxOnFocus, addToHistory }) => {
+    console.log(sudoku);
     const handleFocus = (i: number, j: number) => {
         setBoxOnFocus(i, j);
     }
@@ -21,7 +22,9 @@ const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, se
             return (<input key={`input-${i}-${squareIndex}`} type="text" 
                 defaultValue={e !== 0 ? e : ''} disabled = {defaultMatrix[squareIndex][i] !== 0}
                 onChange={(e) => {
-                    setDigit(+e.target.value, squareIndex, i);
+                    const digit = e.target.value ? +e.target.value: 0;
+                    setDigit(digit, squareIndex, i);
+                    addToHistory(digit, squareIndex, i);
                 }} 
                 onFocus={(e) => handleFocus(squareIndex, i)}/>)
         })
@@ -43,6 +46,7 @@ export default connect((state: { currentSudoku: any; }) => {
 }, (dispatch) => {
     return {
         setDigit: (digit: number, i: number, j: number) => dispatch(sudokuActions.setDigit(digit, i, j)),
-        setBoxOnFocus: (i: number, j: number) => dispatch(sudokuActions.setBoxOnFocus(i, j))
+        setBoxOnFocus: (i: number, j: number) => dispatch(sudokuActions.setBoxOnFocus(i, j)),
+        addToHistory: (digit: number, i: number, j: number) => dispatch(sudokuActions.addToHistory(digit, i, j))
     }
 })(SudokuGrid);

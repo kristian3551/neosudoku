@@ -43,4 +43,27 @@ const addSudokuToSolved = (sudokuId: string) => {
 //     }
 // }
 
-export default { setSudoku, setDigit, setBoxOnFocus, addSudokuToSolved };
+const deleteCurrentSudoku = () => {
+    return {
+        type: actionTypes.DELETE_CURRENT_SUDOKU
+    }
+}
+
+const addToHistory = (digit: number, i: number, j: number) => {
+    return {
+        type: actionTypes.ADD_TO_HISTORY,
+        payload: {
+            digit,
+            coordinates: [i, j]
+        }
+    }
+}
+
+const returnHistory = () => {
+    return {
+        type: actionTypes.RETURN_HISTORY
+    }
+}
+
+export default { setSudoku, setDigit, setBoxOnFocus, addSudokuToSolved, deleteCurrentSudoku, addToHistory,
+    returnHistory };

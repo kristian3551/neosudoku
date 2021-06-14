@@ -14,7 +14,6 @@ const convertInRegularSudoku : (sudoku: Array<Array<number>>) => Array<any> = (s
 
  const checkSudoku : (sudoku: Array<any>) => boolean = (sudoku) => {
     const convertedSudoku = convertInRegularSudoku(sudoku);
-    console.log(convertedSudoku);
     convertedSudoku.forEach(e => {
         [...e].forEach((e1, i) => {
             if([...e].lastIndexOf(e1) !== i) return false;
