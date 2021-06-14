@@ -4,7 +4,8 @@ enum actionTypes {
     SET_CURRENT_SUDOKU = 'SET_CURRENT_SUDOKU',
     ADD_TO_SOLVED = 'ADD_SUDOKU_TO_SOLVED',
     SET_DIGIT = 'SET_DIGIT',
-    SET_BOX = 'SET_BOX'
+    SET_BOX = 'SET_BOX',
+    DELETE_BOX = 'DELETE_BOX'
 };
 
 export default actionTypes;

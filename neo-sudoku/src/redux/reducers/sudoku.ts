@@ -3,6 +3,7 @@ import actionTypes from '../actions/actionTypes';
 const sudokuReducer : any = (state = {
     date: Date.now,
     matrix: [[0,0]],
+    defaultMatrix: [[0,0]],
     rating: 1500,
     difficulty: '',
     type: 'classical',
@@ -13,9 +14,10 @@ const sudokuReducer : any = (state = {
             return action.payload;
         }
         case actionTypes.SET_DIGIT: {
-            let newState = state;
-            newState.matrix[action.payload.coordinates[0]][action.payload.coordinates[1]] = action.payload.digit;
-            return newState;
+            let newMatrix = [...state.matrix];
+            newMatrix[action.payload.coordinates[0]][action.payload.coordinates[1]] = 
+                action.payload.digit;
+            return { ...state, matrix: [...state.matrix], defaultMatrix: state.defaultMatrix};
         }
         case actionTypes.SET_BOX: {
             return {

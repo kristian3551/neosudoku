@@ -12,19 +12,20 @@ import sudokuActions  from '../../redux/actions/sudoku';
 interface Props {
     loggedIn: boolean;
     setSudoku: Function;
+    solvedSudokus: Array<any>;
 }
 
-const NewGamePage : React.FunctionComponent<Props> = ({ loggedIn, setSudoku }) => {
+const NewGamePage : React.FunctionComponent<Props> = ({ loggedIn, setSudoku, solvedSudokus }) => {
     const currentSudoku = useSelector(
         (state: { currentSudoku: any}) => !!state ? state.currentSudoku : {});
-
+        console.log('Enter NewGamePage')
     const { search } : { search: any }= useLocation();
     const difficulty = search.split('=')[1];
     useEffect(() => {
         sudokuApi.getRandomByDifficulty(difficulty)
             .then(e => e.json())
             .then(sudoku => {
-                setSudoku(sudoku);
+                setSudoku({ ...sudoku, defaultMatrix: [...sudoku.matrix]});
             })
             .catch(err => console.log(err));
     }, []);
@@ -49,20 +50,15 @@ const NewGamePage : React.FunctionComponent<Props> = ({ loggedIn, setSudoku }) =
             </section>
             
         </main>
-        <LastSudokusAside solvedSudokus={[{difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true}]}/>
+        <LastSudokusAside solvedSudokus={solvedSudokus}/>
     </div>
     </>);
 }
 
 export default connect((state : { auth: any; }) => {
     return {
-        loggedIn: !!state ? state.auth.loggedIn : false
+        loggedIn: state?.auth.loggedIn,
+        solvedSudokus: state?.auth.user.solvedSudokus
     }
 }, (dispatch) => {
     return {
