@@ -45,7 +45,7 @@ module.exports = {
         },
         login: (req, res, next) => {
             const { username, password } = req.body;
-            models.User.findOne({ username })
+            models.User.findOne({ username }).populate('solvedSudokus')
                 .then((user) => Promise.all([user, user.matchPassword(password)]))
                 .then(([user, match]) => {
                     if (!match) {
@@ -101,10 +101,8 @@ module.exports = {
         },
         setCurrentSudoku: (req, res, next) => {
             const id = req.params.id;
-            const { date, matrix, rating, difficulty, type } = req.body;
-            models.User.updateOne({ _id: id }, { currentSudoku: {
-                date, matrix, rating, difficulty, type
-            } })
+            const { date, matrix, rating, difficulty, type, _id, defaultMatrix, history, boxOnFocus } = req.body;
+            models.User.updateOne({ _id: id }, { currentSudoku: { date, matrix, rating, difficulty, type, _id, defaultMatrix, history, boxOnFocus } })
                 .then((updatedUser) => res.send(updatedUser))
                 .catch(next);
         },

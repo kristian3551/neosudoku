@@ -7,10 +7,12 @@ interface Props {
     sudoku: any; 
     setDigit: Function;
     setBoxOnFocus: Function;
+    defaultMatrix: any;
+    addToHistory: Function;
 }
 
-const SudokuGrid : React.FunctionComponent<Props> = ({ sudoku, setDigit, setBoxOnFocus }) => {
-
+const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, setDigit, setBoxOnFocus, addToHistory }) => {
+    console.log(sudoku);
     const handleFocus = (i: number, j: number) => {
         setBoxOnFocus(i, j);
     }
@@ -18,9 +20,11 @@ const SudokuGrid : React.FunctionComponent<Props> = ({ sudoku, setDigit, setBoxO
     const renderInputs: (square: Array<number>, squareIndex: number) => React.ReactNode = (square, squareIndex) => {
         return square.map((e,i) => {
             return (<input key={`input-${i}-${squareIndex}`} type="text" 
-                defaultValue={e !== 0 ? e : ''} disabled = {e != 0}
+                defaultValue={e !== 0 ? e : ''} disabled = {defaultMatrix[squareIndex][i] !== 0}
                 onChange={(e) => {
-                    setDigit(+e.target.value, squareIndex, i);
+                    const digit = e.target.value ? +e.target.value: 0;
+                    setDigit(digit, squareIndex, i);
+                    addToHistory(digit, squareIndex, i);
                 }} 
                 onFocus={(e) => handleFocus(squareIndex, i)}/>)
         })
@@ -35,9 +39,14 @@ const SudokuGrid : React.FunctionComponent<Props> = ({ sudoku, setDigit, setBoxO
 </div>);
 }
 
-export default connect(null, (dispatch) => {
+export default connect((state: { currentSudoku: any; }) => {
+    return {
+        defaultMatrix: state?.currentSudoku.defaultMatrix
+    }
+}, (dispatch) => {
     return {
         setDigit: (digit: number, i: number, j: number) => dispatch(sudokuActions.setDigit(digit, i, j)),
-        setBoxOnFocus: (i: number, j: number) => dispatch(sudokuActions.setBoxOnFocus(i, j))
+        setBoxOnFocus: (i: number, j: number) => dispatch(sudokuActions.setBoxOnFocus(i, j)),
+        addToHistory: (digit: number, i: number, j: number) => dispatch(sudokuActions.addToHistory(digit, i, j))
     }
 })(SudokuGrid);

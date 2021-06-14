@@ -12,21 +12,33 @@ import sudokuActions  from '../../redux/actions/sudoku';
 interface Props {
     loggedIn: boolean;
     setSudoku: Function;
+    solvedSudokus: Array<any>;
+    currentSudoku: {
+        _id: string;
+        difficulty: string;
+        matrix: Array<Array<number>>;
+    };
+    userId: string;
 }
 
-const NewGamePage : React.FunctionComponent<Props> = ({ loggedIn, setSudoku }) => {
-    const currentSudoku = useSelector(
-        (state: { currentSudoku: any}) => !!state ? state.currentSudoku : {});
-
+const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, loggedIn, setSudoku, solvedSudokus }) => {
     const { search } : { search: any }= useLocation();
     const difficulty = search.split('=')[1];
     useEffect(() => {
-        sudokuApi.getRandomByDifficulty(difficulty)
+        if(!currentSudoku._id) sudokuApi.getRandomByDifficulty(difficulty)
             .then(e => e.json())
             .then(sudoku => {
-                setSudoku(sudoku);
+                const defaultMatrix = JSON.parse(JSON.stringify(sudoku.matrix));
+                setSudoku({ ...sudoku, defaultMatrix,
+                history: []});
             })
             .catch(err => console.log(err));
+        return () => {
+            console.log(currentSudoku);
+            sudokuApi.setCurrentSudoku( currentSudoku, userId)
+                .then(e => e.json())
+                .then(e => console.log(e));
+        }
     }, []);
 
     return (<>
@@ -49,20 +61,17 @@ const NewGamePage : React.FunctionComponent<Props> = ({ loggedIn, setSudoku }) =
             </section>
             
         </main>
-        <LastSudokusAside solvedSudokus={[{difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true},
-    {difficulty: 'medium', type: 'classical', solved: true}]}/>
+        <LastSudokusAside solvedSudokus={solvedSudokus}/>
     </div>
     </>);
 }
 
-export default connect((state : { auth: any; }) => {
+export default connect((state : { auth: any; currentSudoku: any;}) => {
     return {
-        loggedIn: !!state ? state.auth.loggedIn : false
+        loggedIn: state?.auth.loggedIn,
+        userId: state?.auth.user._id,
+        solvedSudokus: state?.auth.user.solvedSudokus,
+        currentSudoku: state?.currentSudoku
     }
 }, (dispatch) => {
     return {

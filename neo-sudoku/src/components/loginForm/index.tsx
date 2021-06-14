@@ -4,11 +4,13 @@ import { useHistory } from 'react-router-dom';
 import userApi from '../../services/auth';
 import { connect } from 'react-redux';
 import authActions from '../../redux/actions/auth';
+import sudokuActions from '../../redux/actions/sudoku';
 
 type HandleChangeType = (e: React.ChangeEvent<HTMLInputElement>,
     type: 'username' | 'password') => void;
 
-const LoginForm : React.FunctionComponent<{ login: Function }> = ({ login }) => {
+const LoginForm : React.FunctionComponent<{ login: Function, setCurrentSudoku: Function }>
+     = ({ login, setCurrentSudoku }) => {
     const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
     const history = useHistory();
@@ -30,6 +32,10 @@ const LoginForm : React.FunctionComponent<{ login: Function }> = ({ login }) => 
             })
             .then((user) => {
                 login(user);
+                if(user.currentSudoku._id) {
+                    console.log('Setting current');
+                    setCurrentSudoku(user.currentSudoku);
+                }
             });
         history.push('/');
     }
@@ -54,6 +60,7 @@ const LoginForm : React.FunctionComponent<{ login: Function }> = ({ login }) => 
 
 export default connect(null, (dispatch) => {
     return {
-        login: (user: any) => dispatch(authActions.login(user))
+        login: (user: any) => dispatch(authActions.login(user)),
+        setCurrentSudoku: (currentSudoku: any) => dispatch(sudokuActions.setSudoku(currentSudoku))
     }
 })(LoginForm);

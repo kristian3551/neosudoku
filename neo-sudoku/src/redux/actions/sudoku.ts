@@ -25,15 +25,45 @@ const setBoxOnFocus = (i: number, j: number) => {
     }
 }
 
-// const addSudokuToSolved = (userId: string, sudokuId: string) => {
+const addSudokuToSolved = (sudokuId: string) => {
+    return {
+        type: actionTypes.ADD_TO_SOLVED,
+        payload: {
+            sudokuId
+        }
+    }
+}
+
+// const deleteBox = (i: number, j: number) => {
 //     return {
-//         type: actionTypes.ADD_TO_SOLVED,
+//         type: actionTypes.DELETE_BOX,
 //         payload: {
-//             sudokuId
+//             coordinates: [i, j]
 //         }
 //     }
 // }
 
+const deleteCurrentSudoku = () => {
+    return {
+        type: actionTypes.DELETE_CURRENT_SUDOKU
+    }
+}
 
+const addToHistory = (digit: number, i: number, j: number) => {
+    return {
+        type: actionTypes.ADD_TO_HISTORY,
+        payload: {
+            digit,
+            coordinates: [i, j]
+        }
+    }
+}
 
-export default { setSudoku, setDigit, setBoxOnFocus };
+const returnHistory = () => {
+    return {
+        type: actionTypes.RETURN_HISTORY
+    }
+}
+
+export default { setSudoku, setDigit, setBoxOnFocus, addSudokuToSolved, deleteCurrentSudoku, addToHistory,
+    returnHistory };
