@@ -12,8 +12,10 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { connect } from 'react-redux';
 import authActions from './redux/actions/auth';
 import userApi from './services/auth';
+import sudokuApi from './services/sudokus';
+import sudokuActions from './redux/actions/sudoku';
 
-const App : React.FunctionComponent<{ login: Function;}> = ({ login }) => {
+const App : React.FunctionComponent<{ login: Function; setCurrentSudoku: Function}> = ({ login, setCurrentSudoku }) => {
 
   const getCookieValue = (name: string) => {
     if(!document.cookie) return;
@@ -29,6 +31,7 @@ const App : React.FunctionComponent<{ login: Function;}> = ({ login }) => {
       userApi.verify(token).then((e: any) => e.json())
       .then(user => {
         login(user);
+        if(user.currentSudoku?._id) setCurrentSudoku(user.currentSudoku);
       })
   }, []);
 
@@ -51,6 +54,7 @@ const App : React.FunctionComponent<{ login: Function;}> = ({ login }) => {
 
 export default connect(null, (dispatch) => {
   return {
-    login: (user: Object) => dispatch(authActions.login(user))
+    login: (user: Object) => dispatch(authActions.login(user)),
+    setCurrentSudoku: (sudoku: any) => dispatch(sudokuActions.setSudoku(sudoku))
   }
 })(App);

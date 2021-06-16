@@ -23,8 +23,9 @@ const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, se
                 defaultValue={e !== 0 ? e : ''} disabled = {defaultMatrix[squareIndex][i] !== 0}
                 onChange={(e) => {
                     const digit = e.target.value ? +e.target.value: 0;
-                    setDigit(digit, squareIndex, i);
+                    // if(digit === 0) addToHistory(sudoku[squareIndex][i], squareIndex, i);
                     addToHistory(digit, squareIndex, i);
+                    setDigit(digit, squareIndex, i);
                 }} 
                 onFocus={(e) => handleFocus(squareIndex, i)}/>)
         })

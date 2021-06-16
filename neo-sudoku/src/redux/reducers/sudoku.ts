@@ -15,10 +15,10 @@ const sudokuReducer : any = (state = {
             return action.payload;
         }
         case actionTypes.SET_DIGIT: {
-            let newMatrix = [...state.matrix];
+            let newMatrix = JSON.parse(JSON.stringify(state.matrix));
             newMatrix[action.payload.coordinates[0]][action.payload.coordinates[1]] = 
                 action.payload.digit;
-            return { ...state, matrix: [...state.matrix]};
+            return { ...state, matrix: newMatrix};
         }
         case actionTypes.SET_BOX: {
             return {

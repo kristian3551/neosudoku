@@ -35,6 +35,7 @@ const GameControls: React.FunctionComponent<any> = ({ sudoku, sudokuId, setDigit
         }
     }
     const handleDelete = () => {
+        const digit = sudoku[coordinates[0]][coordinates[1]];
         setDigit(0, coordinates[0], coordinates[1]);
         addToHistory(0, coordinates[0], coordinates[1])
     }
@@ -43,8 +44,8 @@ const GameControls: React.FunctionComponent<any> = ({ sudoku, sudokuId, setDigit
     }
     const handleReturn = () => {
         const lastLog = history[history.length - 1];
-        console.log(lastLog);
-        setDigit(lastLog.digit, lastLog.coordinates[0], lastLog.coordinates[1]);
+        if(!lastLog) return;
+        setDigit(lastLog.digit ? 0 : lastLog.digit, lastLog.coordinates[0][0], lastLog.coordinates[0][1]);
         returnHistory();
         console.log(history);
     }

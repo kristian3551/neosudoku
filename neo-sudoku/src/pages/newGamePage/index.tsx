@@ -25,7 +25,7 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
     const { search } : { search: any }= useLocation();
     const difficulty = search.split('=')[1];
     useEffect(() => {
-        if(!currentSudoku._id) sudokuApi.getRandomByDifficulty(difficulty)
+        sudokuApi.getRandomByDifficulty(difficulty)
             .then(e => e.json())
             .then(sudoku => {
                 const defaultMatrix = JSON.parse(JSON.stringify(sudoku.matrix));
@@ -53,9 +53,13 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
                     {/* <p>Check for mistakes <input type="checkbox"></input></p> */}
                     <button><i className="fas fa-pause"></i></button>
                 </div>
-                <div className={styles["sudoku-game-wrapper"]}>
-                    <SudokuGrid sudoku={currentSudoku.matrix}/>
-                    <GameControls/>
+                <div className={styles["sudokuGameWrapper"]}>
+                    <div className={styles['sudokuUpperContainer']}>
+                        <SudokuGrid sudoku={currentSudoku.matrix}/>
+                    </div>
+                    <div className={styles['nextToSudoku']}>
+                        <GameControls/>
+                    </div>
                 </div>
 
             </section>
