@@ -55,7 +55,7 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
                 </div>
                 <div className={styles["sudokuGameWrapper"]}>
                     <div className={styles['sudokuUpperContainer']}>
-                        <SudokuGrid sudoku={currentSudoku.matrix}/>
+                        <SudokuGrid sudoku={JSON.parse(JSON.stringify(currentSudoku.matrix))}/>
                     </div>
                     <div className={styles['nextToSudoku']}>
                         <GameControls/>

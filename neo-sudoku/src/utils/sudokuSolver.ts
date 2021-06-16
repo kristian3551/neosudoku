@@ -1,4 +1,8 @@
-const isValidSpot : 
+import { convertInRegularSudoku } from './checkSudoku';
+
+const sudokuSolver : Function = function(matrix: Array<Array<number>>) {
+    
+    const isValidSpot : 
     (matrix: Array<Array<number>>, row: number, col: number, number: number) => boolean 
         = (matrix, row, col, number) => {
         for(let i = 0; i < matrix.length; i++) {
@@ -27,15 +31,20 @@ const isFilled : (matrix: Array<Array<number>>) => boolean = (matrix) => {
     return true;
 }
 
-const solve : (matrix: Array<Array<any>>) => any = (matrix) => {
-    if(isFilled(matrix)) return matrix;
+let solvedMatrix : Array<any> = [];
+
+const solve : (matrix: Array<Array<any>>) => any = (matrixArray) => {
+    if(solvedMatrix.length === 9) return;
+    else if(isFilled(matrixArray)) {
+        solvedMatrix = JSON.parse(JSON.stringify(matrixArray));
+    }
     else {
         let row = 0;
         let col = 0;
         let isFound = false;
-        for(let i = 0; i < matrix.length; i++) {
-            for(let j = 0; j < matrix.length; j++) {
-                if(matrix[i][j] === 0) {
+        for(let i = 0; i < matrixArray.length; i++) {
+            for(let j = 0; j < matrixArray.length; j++) {
+                if(matrixArray[i][j] === 0) {
                     isFound = true;
                     row = i;
                     col = j;
@@ -46,13 +55,18 @@ const solve : (matrix: Array<Array<any>>) => any = (matrix) => {
         }
 
         for(let k = 1; k <= 9; k++) {
-            if(isValidSpot(matrix, row, col, k)) {
-                matrix[row][col] = k;
-                solve(matrix);
-                matrix[row][col] = 0;
+            if(isValidSpot(matrixArray, row, col, k)) {
+                matrixArray[row][col] = k;
+                solve(matrixArray);
+                matrixArray[row][col] = 0;
             }
         }
     }
+    }
+
+    solve(convertInRegularSudoku(matrix));
+
+    return solvedMatrix;
 }
 
-export default solve;
+export default sudokuSolver;

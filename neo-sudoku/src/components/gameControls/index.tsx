@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from './styles.module.css';
 import sudokuActions from '../../redux/actions/sudoku';
 import { connect } from 'react-redux';
-import { checkSudoku, convertInRegularSudoku } from '../../utils/checkSudoku';
-import solve from '../../utils/sudokuSolver';
+import { checkSudoku } from '../../utils/checkSudoku';
+import sudokuSolver from '../../utils/sudokuSolver';
 import sudokuApi from '../../services/sudokus';
 
 type Props = { 
@@ -19,6 +19,8 @@ type Props = {
 
 const GameControls: React.FunctionComponent<any> = ({ sudoku, sudokuId, setDigit, coordinates, userId, addToSolved, history,
     addToHistory, returnHistory }) => {
+    // const solvedSudoku = useMemo(() => sudoku ? sudokuSolver(sudoku) : undefined, [sudoku]);
+
     const handleClick = (e: number) => {
         setDigit(e, coordinates[0], coordinates[1]);
         addToHistory(e, coordinates[0], coordinates[1])
@@ -40,7 +42,7 @@ const GameControls: React.FunctionComponent<any> = ({ sudoku, sudokuId, setDigit
         addToHistory(0, coordinates[0], coordinates[1])
     }
     const handleHint = () => {
-        console.log(convertInRegularSudoku(sudoku));
+        // console.log(solvedSudoku[coordinates[0]][coordinates[1]]);
     }
     const handleReturn = () => {
         const lastLog = history[history.length - 1];
