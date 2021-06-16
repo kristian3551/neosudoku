@@ -40,12 +40,13 @@ module.exports = {
                     .populate('solvedSudokus')
                         .then((user) => {
                             return res.send(user);
-                        });
+                        })
+                        .catch(err => console.log(err));
                 });
         },
         login: (req, res, next) => {
             const { username, password } = req.body;
-            models.User.findOne({ username }).populate('solvedSudokus')
+            models.User.findOne({ username })
                 .then((user) => Promise.all([user, user.matchPassword(password)]))
                 .then(([user, match]) => {
                     if (!match) {
@@ -102,15 +103,15 @@ module.exports = {
         setCurrentSudoku: (req, res, next) => {
             const id = req.params.id;
             const { date, matrix, rating, difficulty, type, _id, defaultMatrix, history, boxOnFocus } = req.body;
-            models.User.updateOne({ _id: id }, { currentSudoku: { date, matrix, rating, difficulty, type, _id, defaultMatrix, history, boxOnFocus } })
+            models.User.updateOne({ _id: id }, { currentSudoku: !!date ? { date, matrix, rating, difficulty, type, _id, defaultMatrix, history, boxOnFocus } : {} })
                 .then((updatedUser) => res.send(updatedUser))
                 .catch(next);
         },
         addSudokuToSolved: (req, res, next) => {
             const id = req.params.id;
-            const { sudokuId } = req.body;
+            const { date, difficulty, type, ratingPoints } = req.body;
             models.User.updateOne({ _id: id}, 
-                { $push: { solvedSudokus: sudokuId }})
+                { $push: { solvedSudokus: { date, difficulty, type, ratingPoints } }})
                 .then((updatedUser) => res.send(updatedUser))
                 .catch(next);
         },
@@ -119,15 +120,13 @@ module.exports = {
             const { type, ratingPoints } = req.body;
             models.User.findOne({ _id: id })
                 .then((user) => {
-                    const ratingObject = {
-                        ...user.ratingsByType,
-                        [type]: ratingPoints
-                    };
+                    const ratingObject = user.ratingsByType;
+                    ratingObject[type] = ratingPoints;
                     return Promise.all([
                         models.User.updateOne({ _id: id }, { ratingsByType: ratingObject })
                     ])
                 })
-                .then(([updatedUser]) => res.send(updatedUser.ratingsByType))
+                .then(([updatedUser]) => res.send(updatedUser))
                 .catch(next);
         }
     },

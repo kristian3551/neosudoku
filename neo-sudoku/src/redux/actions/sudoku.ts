@@ -25,11 +25,11 @@ const setBoxOnFocus = (i: number, j: number) => {
     }
 }
 
-const addSudokuToSolved = (sudokuId: string) => {
+const addSudokuToSolved = (date: Date, difficulty: string, type: number, ratingPoints: number) => {
     return {
         type: actionTypes.ADD_TO_SOLVED,
         payload: {
-            sudokuId
+            date, difficulty, type, ratingPoints
         }
     }
 }

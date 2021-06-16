@@ -31,7 +31,7 @@ const userSchema = new Schema({
     currentSudoku: {
         type: Object
     },
-    solvedSudokus: [{type: ObjectId, ref: 'Sudoku'}],
+    solvedSudokus: [{type: Object }],
     ratingsByType: {
         type: Object,
         default: {
