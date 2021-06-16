@@ -11,31 +11,18 @@ type SolvedSudokusType = {
 const LastSudokusAside : React.FunctionComponent<{ 
     solvedSudokus: Array<any>; 
 }> = ({ solvedSudokus }) => {
-    // const [sudokus, setSudokus] = useState<Array<any>>([]);
-
-    useEffect(() => {
-        // solvedSudokus.forEach((s: string) => {
-        //     sudokuApi.getOne(s)
-        //         .then(e => e.json())
-        //         .then(sudoku => {
-        //             const sudokuObj = { type: sudoku.type, difficulty: sudoku.difficulty, solved: true};
-        //             setSudokus([...sudokus, 
-        //                 sudokuObj])
-        //         })
-        // })
-    }, []);
 
     const renderSolvedSudokus : (arr: Array<{
         difficulty: 'easy' | 'medium' | 'hard' | 'expert';
         type: 'classical' | 'irregular (6x6)';
-        solved: boolean;
+        ratingPoints: number;
     }>) => React.ReactNode = (arr) => {
         return arr.map((e, i) => {
             return (<li key={i}>
                 <p>Diff.: {e.difficulty}</p>
                 <p>Type: {e.type}</p>
                 {/* {e.solved ? (<i className="fas fa-check"></i>) : (<i className="fas fa-times"></i>)} */}
-                <i className="fas fa-check"></i>
+                <p>+{e.ratingPoints.toFixed(2)}pts</p>
             </li>);
         })
     }

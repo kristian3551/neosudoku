@@ -28,7 +28,7 @@ const ProfilePage : React.FunctionComponent<{
             firstName={!!user ? user.firstName : ''} lastName={!!user ? user.lastName : ''} 
             profileImageURL="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg"
             />
-            <RatingsSection ratings={!!user ? user.ratingsByType : {}}/>
+            <RatingsSection solvedSudokus={user.solvedSudokus} ratings={!!user ? user.ratingsByType : {}}/>
             <LogSection logs={[{date: '9 JUNE 2021', countOfSudokus: 6, ratePts: 20},
         {date: '10 JUNE 2021', countOfSudokus: 5, ratePts: 15},
         {date: '11 JUNE 2021', countOfSudokus: 10, ratePts: 30}]}/>
@@ -44,6 +44,6 @@ export default connect((state: { auth: any}) => {
             lastName: '',
             ratingsByType: {}
         },
-        loggedIn: !!state ? state.auth.loggedIn : false
+        loggedIn: state?.auth.loggedIn
     }
 }, null)(ProfilePage);

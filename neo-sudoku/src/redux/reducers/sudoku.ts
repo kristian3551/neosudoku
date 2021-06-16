@@ -1,7 +1,7 @@
 import actionTypes from '../actions/actionTypes';
 
 const sudokuReducer : any = (state = {
-    date: Date.now,
+    date: Date.now(),
     matrix: [[0,0]],
     defaultMatrix: [[0,0]],
     rating: 1500,

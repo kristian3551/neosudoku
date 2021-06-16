@@ -1,25 +1,28 @@
 import React, { useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './styles.module.css';
 import sudokuActions from '../../redux/actions/sudoku';
 import { connect } from 'react-redux';
 import { checkSudoku } from '../../utils/checkSudoku';
 import sudokuSolver from '../../utils/sudokuSolver';
 import sudokuApi from '../../services/sudokus';
+import calculateRating from '../../utils/calculateRating';
 
 type Props = { 
     sudoku: Array<Array<number>>;
     setDigit: Function;
     coordinates: Array<number>;
-    userId: string;
-    sudokuId: string;
+    user: any;
     addToSolved: Function;
     addToHistory: Function;
     returnHistory: Function;
+    currentSudokuObject: any;
  };
 
-const GameControls: React.FunctionComponent<any> = ({ sudoku, sudokuId, setDigit, coordinates, userId, addToSolved, history,
+const GameControls: React.FunctionComponent<any> = ({ sudoku, currentSudokuObject, setDigit, coordinates, user, addToSolved, history,
     addToHistory, returnHistory }) => {
     // const solvedSudoku = useMemo(() => sudoku ? sudokuSolver(sudoku) : undefined, [sudoku]);
+        const routerHistory = useHistory();
 
     const handleClick = (e: number) => {
         setDigit(e, coordinates[0], coordinates[1]);
@@ -27,10 +30,23 @@ const GameControls: React.FunctionComponent<any> = ({ sudoku, sudokuId, setDigit
     }
     const handleFinish = () => {
         const isSolved = checkSudoku(sudoku);
+        const date = new Date(currentSudokuObject.date);
         if(isSolved) {
-            sudokuApi.addSudokuToSolved(userId, sudokuId)
+            const ratingPoints = calculateRating(user.ratingsByType[currentSudokuObject.type],
+                currentSudokuObject.rating, user.solvedSudokus.length);
+            sudokuApi.addSudokuToSolved(user._id, 
+                date, currentSudokuObject.difficulty, 
+                currentSudokuObject.type, ratingPoints)
                 .then(e => {
-                    addToSolved(sudokuId);
+                    Promise.all([sudokuApi.setRating(user._id, currentSudokuObject.type,
+                        user.ratingsByType[currentSudokuObject.type] + ratingPoints),
+                        sudokuApi.setCurrentSudoku({}, user._id)
+                    ])
+                    .then(([res1, res2]) => {
+                        addToSolved(date, currentSudokuObject.difficulty, 
+                            currentSudokuObject.type, ratingPoints);
+                        routerHistory.push('/');
+                    });
                 })
         } else {
             console.log('Nope');
@@ -49,7 +65,6 @@ const GameControls: React.FunctionComponent<any> = ({ sudoku, sudokuId, setDigit
         if(!lastLog) return;
         setDigit(lastLog.digit ? 0 : lastLog.digit, lastLog.coordinates[0][0], lastLog.coordinates[0][1]);
         returnHistory();
-        console.log(history);
     }
     return (<div className={styles["game-controls"]}>
         <div className={styles["options-menu"]}>
@@ -70,15 +85,16 @@ export default connect((state: { auth: any; currentSudoku: any}) => {
     return {
         coordinates: state?.currentSudoku.boxOnFocus,
         sudoku: state?.currentSudoku.matrix,
-        userId: state?.auth.user._id,
-        sudokuId: state?.currentSudoku._id,
-        currentSudokuMatrix: state?.currentSudoku.matrix,
-        history: state?.currentSudoku.history
+        user: state?.auth.user,
+        history: state?.currentSudoku.history,
+        currentSudokuObject: state?.currentSudoku
     }
 }, (dispatch) => {
     return {
         setDigit: (digit: number, i: number, j: number) => dispatch(sudokuActions.setDigit(digit, i, j)),
-        addToSolved: (sudokuId: string) => dispatch(sudokuActions.addSudokuToSolved(sudokuId)),
+        addToSolved: 
+            (date: Date, difficulty: string, type: number, ratingPoints: number) => 
+                dispatch(sudokuActions.addSudokuToSolved(date, difficulty, type, ratingPoints)),
         addToHistory: (digit: number, i: number, j: number) => dispatch(sudokuActions.addToHistory(digit, i, j)),
         returnHistory: () => dispatch(sudokuActions.returnHistory())
     }

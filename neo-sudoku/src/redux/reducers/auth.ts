@@ -19,7 +19,7 @@ const authReducer : any = (state = {
         }
         case actionTypes.ADD_TO_SOLVED: {
             let newState : { user:any }= state;
-            newState.user.solvedSudokus.push(action.payload.sudokuId);
+            newState.user.solvedSudokus.push(action.payload);
             return newState;
         }
         default: return state;

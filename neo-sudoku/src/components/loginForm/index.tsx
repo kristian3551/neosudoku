@@ -32,7 +32,7 @@ const LoginForm : React.FunctionComponent<{ login: Function, setCurrentSudoku: F
             })
             .then((user) => {
                 login(user);
-                if(user.currentSudoku._id) {
+                if(user.currentSudoku?._id) {
                     console.log('Setting current');
                     setCurrentSudoku(user.currentSudoku);
                 }

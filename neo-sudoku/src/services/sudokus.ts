@@ -26,8 +26,8 @@ const create : (date: string, matrix:string, rating: number,
         })
 }
 
-const setCurrentSudoku = (currentSudoku: Object, id: string) => {
-    return fetch(`${userURL}/setCurrentSudoku/${id}`, {
+const setCurrentSudoku = (currentSudoku: Object, userId: string) => {
+    return fetch(`${userURL}/setCurrentSudoku/${userId}`, {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json'
@@ -36,19 +36,30 @@ const setCurrentSudoku = (currentSudoku: Object, id: string) => {
     });
 }
 
-const addSudokuToSolved = (userId: string, sudokuId: string) => {
+const addSudokuToSolved = (userId: string, date: Date, 
+    difficulty: string, type: string, ratingPoints: number) => {
     return fetch(`${userURL}/addSudokuToSolved/${userId}`, {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            sudokuId
+            date, difficulty, type, ratingPoints
         })
     });
 }
 
+const setRating = (userId: string, type: string, ratingPoints: number) => {
+    return fetch(`${userURL}/setRating/${userId}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ type,  ratingPoints })
+    })
+}
+
 const sudokuApi = { getAll, getOne, getRandomByDifficulty, create, 
-    setCurrentSudoku, addSudokuToSolved };
+    setCurrentSudoku, addSudokuToSolved, setRating };
 
 export default sudokuApi;
