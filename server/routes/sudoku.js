@@ -9,6 +9,8 @@ router.get('/byDate/:date', controllers.sudoku.getByDate);
 
 router.get('/random/:difficulty', controllers.sudoku.getRandomByDifficulty);
 
+router.post('/solve', controllers.sudoku.post.getSolvedSudoku);
+
 router.post('/', controllers.sudoku.post.create);
 
 router.put('/:id', controllers.sudoku.put);

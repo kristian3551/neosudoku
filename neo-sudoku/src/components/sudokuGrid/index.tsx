@@ -12,7 +12,6 @@ interface Props {
 }
 
 const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, setDigit, setBoxOnFocus, addToHistory }) => {
-    console.log(sudoku);
     const handleFocus = (i: number, j: number) => {
         setBoxOnFocus(i, j);
     }

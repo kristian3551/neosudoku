@@ -2,8 +2,10 @@
     width: 45%;
     margin-left: 15%;
     margin-top: 5vh;
-    display: flex;
-    justify-content: space-between;
+}
+
+.main > * {
+    display: inline-block;
 }
 
 .main button {
@@ -16,4 +18,41 @@
     border: none;
     color: white;
     border-radius: 10px;
+}
+
+.sudoku-container {
+    width: 450px;
+    height: 451px;
+    border: 1px solid black;
+    display: inline-block;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.big-square {
+    width: calc(450px / 3 - 2px);
+    height: calc(450px / 3 - 1.7px);
+    background-color: aliceblue;
+    border: 1px solid black;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: auto auto auto;
+}
+
+.big-square input {
+    width: calc(100% - 5px);
+    border: 0.5px solid rgb(233, 236, 240);
+    text-align: center;
+    color: grey;
+    font-size: 20px;
+    /* background-color: rgb(240, 245, 250) */
+}
+
+.big-square input:disabled {
+    background-color: white;
+}
+
+.sudokuUpperContainer {
+    width: 460px;
+    height: 460px;
 }

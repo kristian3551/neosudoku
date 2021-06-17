@@ -6,9 +6,7 @@ import actions from '../../redux/actions/auth';
 import sudokuActions from '../../redux/actions/sudoku';
 import { useDispatch } from 'react-redux';
 
-const Header: React.FunctionComponent<{ logout: Function}> = ({ logout }) => {
-    const loggedIn : boolean = useSelector((state: any) => !!state ? 
-    state.auth.loggedIn : false);
+const Header: React.FunctionComponent<{ logout: Function, user: any, loggedIn: boolean}> = ({ logout, user, loggedIn }) => {
     const dispatch = useDispatch();
 
     const handleLogout = () => {
@@ -22,12 +20,12 @@ const Header: React.FunctionComponent<{ logout: Function}> = ({ logout }) => {
             <h1>NeoSudoku</h1>
             <nav className={styles['nav-bar']}>
                 <ul className={styles['nav-bar-ul']}>
-
+                    {user?.currentSudoku?.difficulty && (<li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to={`/newGame?diff=${user.currentSudoku.difficulty}`}>Continue</Link></li>)}
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/getStarted">Getting started</Link></li>
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/articles?page=1">Useful tips and articles</Link></li>
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/sudokuSolver">Sudoku solver</Link></li>
                     {loggedIn ? (<>
-                        <li className={styles['nav-bar-ul-li']}>
+                        {!user?.currentSudoku?.difficulty && (<li className={styles['nav-bar-ul-li']}>
                             <div className={styles['dropdown']}>
                                 <Link className={styles['nav-bar-ul-li-a']} to="#">New game</Link>
                                 <div className={styles["dropdown-content"]}>
@@ -37,7 +35,7 @@ const Header: React.FunctionComponent<{ logout: Function}> = ({ logout }) => {
                                     <Link className={styles['nav-bar-ul-li-a']} to="/newGame?diff=expert">Expert</Link>
                                 </div>
                             </div>
-                        </li>
+                        </li>)}
                         <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/profile">My profile</Link></li>
                         <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/"
                         onClick={handleLogout}>Logout</Link></li></>) :
@@ -51,7 +49,12 @@ const Header: React.FunctionComponent<{ logout: Function}> = ({ logout }) => {
     </header>);
 }
 
-export default connect(null, (dispatch) => {
+export default connect((state: any) => {
+    return {
+        user: state?.auth.user,
+        loggedIn: state?.auth.loggedIn
+    }
+}, (dispatch) => {
     return {
         logout: () => dispatch(actions.logout())
     }

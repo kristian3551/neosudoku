@@ -1,4 +1,6 @@
 const models = require('../models');
+const sudokuSolver = require('../utils/sudokuSolver');
+
 
 module.exports = {
     get: (req, res, next) => {
@@ -35,6 +37,11 @@ module.exports = {
                     res.send(createdSudoku);
                 })
                 .catch(next);
+        },
+        getSolvedSudoku: (req, res, next) => {
+            const { matrix } = req.body;
+            const solvedMatrix = sudokuSolver(matrix);
+            res.send(solvedMatrix);
         }
     },
     put: (req, res, next) => {

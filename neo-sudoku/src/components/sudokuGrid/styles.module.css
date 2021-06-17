@@ -1,6 +1,6 @@
 .sudoku-container {
     width: 450px;
-    height: 450px;
+    height: 451px;
     display: flex;
     flex-wrap: wrap;
     border: 1px solid black;
