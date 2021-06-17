@@ -17,12 +17,13 @@ const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, se
     }
 
     const renderInputs: (square: Array<number>, squareIndex: number) => React.ReactNode = (square, squareIndex) => {
+        console.log(squareIndex, sudoku[squareIndex]);
         return square.map((e,i) => {
+            
             return (<input key={`input-${i}-${squareIndex}`} type="text" 
                 defaultValue={e !== 0 ? e : ''} disabled = {defaultMatrix[squareIndex][i] !== 0}
-                onChange={(e) => {
-                    const digit = e.target.value ? +e.target.value: 0;
-                    // if(digit === 0) addToHistory(sudoku[squareIndex][i], squareIndex, i);
+                onChange={(e1) => {
+                    const digit = e1.target.value ? +e1.target.value: 0;
                     addToHistory(digit, squareIndex, i);
                     setDigit(digit, squareIndex, i);
                 }} 
