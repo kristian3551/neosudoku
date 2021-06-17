@@ -49,7 +49,7 @@ const deleteCurrentSudoku = () => {
     }
 }
 
-const addToHistory = (type: 'removed' | 'added', digit: number, i: number, j: number) => {
+const addToHistory = (type: 'removed' | 'added' | 'replaced', digit: number, i: number, j: number) => {
     return {
         type: actionTypes.ADD_TO_HISTORY,
         payload: {

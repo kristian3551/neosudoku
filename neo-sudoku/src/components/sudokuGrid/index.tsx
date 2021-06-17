@@ -18,8 +18,8 @@ const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, se
 
     const renderInputs: (square: Array<number>, squareIndex: number) => React.ReactNode = (square, squareIndex) => {
         return square.map((e,i) => {
-            return (<input key={`input-${i}-${squareIndex}`} type="text" 
-                defaultValue={e !== 0 ? e : ''} disabled = {defaultMatrix[squareIndex][i] !== 0}
+            return (<input className={defaultMatrix[squareIndex][i] !== 0 ? styles['defaultCharacters'] : ''} key={`input-${i}-${squareIndex}`} type="text" 
+                value={e !== 0 ? e : ''} disabled = {defaultMatrix[squareIndex][i] !== 0}
                 onChange={(e1) => {
                     const digit = e1.target.value ? +e1.target.value: 0;
                     addToHistory(digit === 0 ? 'removed' : 'added', digit === 0 ? e : digit, squareIndex, i);

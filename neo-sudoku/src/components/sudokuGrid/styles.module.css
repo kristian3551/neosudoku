@@ -26,6 +26,11 @@
     /* background-color: rgb(240, 245, 250) */
 }
 
+.big-square input.defaultCharacters {
+    color: rgb(0, 60, 121);
+    font-weight: bolder;
+}
+
 .big-square input:disabled {
     background-color: white;
 }

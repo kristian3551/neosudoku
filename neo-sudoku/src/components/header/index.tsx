@@ -17,17 +17,21 @@ const Header: React.FunctionComponent<{
         document.cookie = 'x-auth-token=';
     }
 
+    let hasCurrentSudoku = true;
+    if(!currentSudoku) hasCurrentSudoku = false;
+    else if(!currentSudoku.difficulty) hasCurrentSudoku = false; 
+
     return (<header className={styles['header']}>
         <section className={styles['header-section']}>
             <h1>NeoSudoku</h1>
             <nav className={styles['nav-bar']}>
                 <ul className={styles['nav-bar-ul']}>
-                    {currentSudoku?.difficulty && (<li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to={`/newGame?diff=${user.currentSudoku.difficulty}`}>Continue</Link></li>)}
+                    {hasCurrentSudoku && (<li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to={`/newGame?diff=${user?.currentSudoku?.difficulty}`}>Continue</Link></li>)}
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/getStarted">Getting started</Link></li>
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/articles?page=1">Useful tips and articles</Link></li>
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/sudokuSolver">Sudoku solver</Link></li>
                     {loggedIn ? (<>
-                        {!currentSudoku?.difficulty && (<li className={styles['nav-bar-ul-li']}>
+                        {!hasCurrentSudoku && (<li className={styles['nav-bar-ul-li']}>
                             <div className={styles['dropdown']}>
                                 <Link className={styles['nav-bar-ul-li-a']} to="#">New game</Link>
                                 <div className={styles["dropdown-content"]}>

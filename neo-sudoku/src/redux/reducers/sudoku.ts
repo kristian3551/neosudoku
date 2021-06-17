@@ -40,7 +40,7 @@ const sudokuReducer : any = (state = {
             return {
                 ...state,
                 history: [...state.history, { type: action.payload.type, digit: action.payload.digit, 
-                    coordinates: [action.payload.coordinates]}]
+                    coordinates: action.payload.coordinates}]
             };
         }
         case actionTypes.RETURN_HISTORY: {

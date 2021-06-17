@@ -29,8 +29,10 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
             .then(e => e.json())
             .then(sudoku => {
                 const defaultMatrix = JSON.parse(JSON.stringify(sudoku.matrix));
-                setSudoku({ ...sudoku, defaultMatrix,
-                history: [], date: Date.now()});
+                const sudokuObject = { ...sudoku, defaultMatrix,
+                    history: [], date: Date.now()};
+                setSudoku(sudokuObject);
+                sudokuApi.setCurrentSudoku(sudokuObject, userId);
             })
             .catch(err => console.log(err));
         return () => {
@@ -66,7 +68,7 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
             </section>
             
         </main>
-        <LastSudokusAside solvedSudokus={solvedSudokus}/>
+        <LastSudokusAside solvedSudokus={!!solvedSudokus ? solvedSudokus : []}/>
     </div>
     </>);
 }
