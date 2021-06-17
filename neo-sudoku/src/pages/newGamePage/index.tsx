@@ -34,9 +34,11 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
             })
             .catch(err => console.log(err));
         return () => {
-            sudokuApi.setCurrentSudoku( currentSudoku, userId)
+            (async () => {
+                await sudokuApi.setCurrentSudoku( currentSudoku, userId)
                 .then(e => e.json())
                 .catch(e => console.log('Error'));
+            })()
         }
     }, []);
 
