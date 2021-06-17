@@ -36,8 +36,6 @@ module.exports = {
                     if (blacklistToken) { return Promise.reject(new Error('blacklisted token')) }
     
                     models.User.findById(data.id)
-                    .populate('currentSudoku')
-                    .populate('solvedSudokus')
                         .then((user) => {
                             return res.send(user);
                         })
@@ -102,8 +100,8 @@ module.exports = {
         },
         setCurrentSudoku: (req, res, next) => {
             const id = req.params.id;
-            const { date, matrix, rating, difficulty, type, _id, defaultMatrix, history, boxOnFocus } = req.body;
-            models.User.updateOne({ _id: id }, { currentSudoku: !!date ? { date, matrix, rating, difficulty, type, _id, defaultMatrix, history, boxOnFocus } : {} })
+            const { currentSudoku } = req.body;
+            models.User.updateOne({ _id: id }, { currentSudoku })
                 .then((updatedUser) => res.send(updatedUser))
                 .catch(next);
         },

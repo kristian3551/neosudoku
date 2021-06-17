@@ -30,11 +30,10 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
             .then(sudoku => {
                 const defaultMatrix = JSON.parse(JSON.stringify(sudoku.matrix));
                 setSudoku({ ...sudoku, defaultMatrix,
-                history: []});
+                history: [], date: Date.now()});
             })
             .catch(err => console.log(err));
         return () => {
-            console.log(currentSudoku);
             sudokuApi.setCurrentSudoku( currentSudoku, userId)
                 .then(e => e.json())
                 .then(e => console.log(e));

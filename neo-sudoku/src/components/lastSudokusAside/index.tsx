@@ -22,7 +22,8 @@ const LastSudokusAside : React.FunctionComponent<{
                 <p>Diff.: {e.difficulty}</p>
                 <p>Type: {e.type}</p>
                 {/* {e.solved ? (<i className="fas fa-check"></i>) : (<i className="fas fa-times"></i>)} */}
-                <p>+{e.ratingPoints.toFixed(2)}pts</p>
+                <p>{e.ratingPoints > 0 ? `+${e.ratingPoints.toFixed(2)}` 
+                : e.ratingPoints.toFixed(2)}pts</p>
             </li>);
         })
     }

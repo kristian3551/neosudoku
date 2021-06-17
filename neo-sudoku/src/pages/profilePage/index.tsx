@@ -29,21 +29,14 @@ const ProfilePage : React.FunctionComponent<{
             profileImageURL="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg"
             />
             <RatingsSection solvedSudokus={user.solvedSudokus} ratings={!!user ? user.ratingsByType : {}}/>
-            <LogSection logs={[{date: '9 JUNE 2021', countOfSudokus: 6, ratePts: 20},
-        {date: '10 JUNE 2021', countOfSudokus: 5, ratePts: 15},
-        {date: '11 JUNE 2021', countOfSudokus: 10, ratePts: 30}]}/>
+            <LogSection logs={!!user ? user.solvedSudokus: []}/>
         </main>
     </>)
 }
 
 export default connect((state: { auth: any}) => {
     return {
-        user: !!state ? state.auth.user: {
-            username: '',
-            firstName: '',
-            lastName: '',
-            ratingsByType: {}
-        },
+        user: state?.auth.user,
         loggedIn: state?.auth.loggedIn
     }
 }, null)(ProfilePage);

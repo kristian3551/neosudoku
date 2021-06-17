@@ -1,10 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './styles.module.css';
 import sudokuActions from '../../redux/actions/sudoku';
 import { connect } from 'react-redux';
 import { checkSudoku } from '../../utils/checkSudoku';
-import sudokuSolver from '../../utils/sudokuSolver';
 import sudokuApi from '../../services/sudokus';
 import calculateRating from '../../utils/calculateRating';
 
@@ -21,8 +20,14 @@ type Props = {
 
 const GameControls: React.FunctionComponent<any> = ({ sudoku, currentSudokuObject, setDigit, coordinates, user, addToSolved, history,
     addToHistory, returnHistory }) => {
-    // const solvedSudoku = useMemo(() => sudoku ? sudokuSolver(sudoku) : undefined, [sudoku]);
-        const routerHistory = useHistory();
+    const [hintsCount, setHintsCount] = useState(0);
+    const solvedSudoku : any = useMemo(async () => {
+        let returnValue : any = [];
+        return await sudokuApi.solveSudoku(currentSudokuObject.defaultMatrix)
+            .then(e => e.json())
+            .then(e => e);
+    }, [currentSudokuObject.defaultMatrix])
+    const routerHistory = useHistory();
 
     const handleClick = (e: number) => {
         setDigit(e, coordinates[0], coordinates[1]);
@@ -33,14 +38,14 @@ const GameControls: React.FunctionComponent<any> = ({ sudoku, currentSudokuObjec
         const date = new Date(currentSudokuObject.date);
         if(isSolved) {
             const ratingPoints = calculateRating(user.ratingsByType[currentSudokuObject.type],
-                currentSudokuObject.rating, user.solvedSudokus.length);
+                currentSudokuObject.rating, user.solvedSudokus.length, hintsCount);
             sudokuApi.addSudokuToSolved(user._id, 
                 date, currentSudokuObject.difficulty, 
                 currentSudokuObject.type, ratingPoints)
                 .then(e => {
                     Promise.all([sudokuApi.setRating(user._id, currentSudokuObject.type,
                         user.ratingsByType[currentSudokuObject.type] + ratingPoints),
-                        sudokuApi.setCurrentSudoku({}, user._id)
+                        sudokuApi.setCurrentSudoku(null, user._id)
                     ])
                     .then(([res1, res2]) => {
                         addToSolved(date, currentSudokuObject.difficulty, 
@@ -57,8 +62,12 @@ const GameControls: React.FunctionComponent<any> = ({ sudoku, currentSudokuObjec
         setDigit(0, coordinates[0], coordinates[1]);
         addToHistory(0, coordinates[0], coordinates[1])
     }
-    const handleHint = () => {
-        // console.log(solvedSudoku[coordinates[0]][coordinates[1]]);
+    const handleHint = async () => {
+        const solvedObject = await solvedSudoku;
+        console.log(solvedSudoku);
+        const digit = solvedObject[coordinates[0]][coordinates[1]];
+        setDigit(digit, coordinates[0], coordinates[1]);
+        setHintsCount(hintsCount + 1);
     }
     const handleReturn = () => {
         const lastLog = history[history.length - 1];
