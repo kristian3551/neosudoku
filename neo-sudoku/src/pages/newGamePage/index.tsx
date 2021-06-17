@@ -25,7 +25,7 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
     const { search } : { search: any }= useLocation();
     const difficulty = search.split('=')[1];
     useEffect(() => {
-        if(!currentSudoku.difficulty) sudokuApi.getRandomByDifficulty(difficulty)
+        if(!currentSudoku?.difficulty) sudokuApi.getRandomByDifficulty(difficulty)
             .then(e => e.json())
             .then(sudoku => {
                 const defaultMatrix = JSON.parse(JSON.stringify(sudoku.matrix));
@@ -35,14 +35,15 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
                 sudokuApi.setCurrentSudoku(sudokuObject, userId);
             })
             .catch(err => console.log(err));
-        return () => {
-            (async () => {
-                await sudokuApi.setCurrentSudoku( currentSudoku, userId)
-                .then(e => e.json())
-                .catch(e => console.log('Error'));
-            })()
-        }
     }, []);
+
+    useEffect(() => {
+        return () => {
+            sudokuApi.setCurrentSudoku( currentSudoku, userId)
+            .then(e => e.json())
+            .catch(e => console.log('Error'));
+        }
+    });
 
     return (<>
         {!loggedIn && (<Redirect to="/login"/>)}
