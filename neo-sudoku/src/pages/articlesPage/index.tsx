@@ -19,7 +19,7 @@ const ArticlesPage = () => {
                 setArticles(articles);
             })
             .catch(err => console.log(err));
-    }, [])
+    }, [page])
 
     // type IRenderArticles = (articlesObj: Array<Object>) => React.ReactNode;
 

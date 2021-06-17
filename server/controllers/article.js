@@ -5,7 +5,8 @@ module.exports = {
         const page = req.query.page;
         Article.find()
             .then((articles) => {
-                return articles.slice(5 * page - 5, 5 * page);
+                if(page !== 'all') return articles.slice(4 * page - 4, 4 * page)
+                return articles;
             })
             .then((articles) => res.send(articles.map(e => {
                 let length = 0;

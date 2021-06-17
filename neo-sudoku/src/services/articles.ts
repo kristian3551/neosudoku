@@ -1,6 +1,6 @@
 const articlesURL = 'http://localhost:8000/api/article';
 
-const getAll : (page: number) => Promise<any> = async (page) => {
+const getAll : (page: number | 'all') => Promise<any> = async (page) => {
     return fetch(`${articlesURL}?page=${page}`).then((e : any) => e.json());
 }
 
