@@ -25,20 +25,25 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
     const { search } : { search: any }= useLocation();
     const difficulty = search.split('=')[1];
     useEffect(() => {
-        sudokuApi.getRandomByDifficulty(difficulty)
+        if(!currentSudoku?.difficulty) sudokuApi.getRandomByDifficulty(difficulty)
             .then(e => e.json())
             .then(sudoku => {
                 const defaultMatrix = JSON.parse(JSON.stringify(sudoku.matrix));
-                setSudoku({ ...sudoku, defaultMatrix,
-                history: [], date: Date.now()});
+                const sudokuObject = { ...sudoku, defaultMatrix,
+                    history: [], date: Date.now()};
+                setSudoku(sudokuObject);
+                sudokuApi.setCurrentSudoku(sudokuObject, userId);
             })
             .catch(err => console.log(err));
+    }, []);
+
+    useEffect(() => {
         return () => {
             sudokuApi.setCurrentSudoku( currentSudoku, userId)
-                .then(e => e.json())
-                .then(e => console.log(e));
+            .then(e => e.json())
+            .catch(e => console.log('Error'));
         }
-    }, []);
+    });
 
     return (<>
         {!loggedIn && (<Redirect to="/login"/>)}
@@ -64,7 +69,7 @@ const NewGamePage : React.FunctionComponent<Props> = ({ userId, currentSudoku, l
             </section>
             
         </main>
-        <LastSudokusAside solvedSudokus={solvedSudokus}/>
+        <LastSudokusAside solvedSudokus={!!solvedSudokus ? solvedSudokus : []}/>
     </div>
     </>);
 }

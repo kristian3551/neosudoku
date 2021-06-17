@@ -4,7 +4,7 @@ const saltRounds = 10;
 
 const Schema = mongoose.Schema;
 const Model = mongoose.model;
-const { String, Number, Boolean, ObjectId } = Schema.Types;
+const { String, Object } = Schema.Types;
 
 const userSchema = new Schema({
 
@@ -29,7 +29,7 @@ const userSchema = new Schema({
     birthDate: String,
     profilePictureURL: String,
     currentSudoku: {
-        type: Object
+        type: Object, default: null
     },
     solvedSudokus: [{type: Object }],
     ratingsByType: {

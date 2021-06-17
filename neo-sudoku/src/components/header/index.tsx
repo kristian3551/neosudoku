@@ -6,7 +6,9 @@ import actions from '../../redux/actions/auth';
 import sudokuActions from '../../redux/actions/sudoku';
 import { useDispatch } from 'react-redux';
 
-const Header: React.FunctionComponent<{ logout: Function, user: any, loggedIn: boolean}> = ({ logout, user, loggedIn }) => {
+const Header: React.FunctionComponent<{
+     logout: Function, user: any, loggedIn: boolean, currentSudoku: any
+    }> = ({ logout, user, loggedIn, currentSudoku}) => {
     const dispatch = useDispatch();
 
     const handleLogout = () => {
@@ -15,17 +17,21 @@ const Header: React.FunctionComponent<{ logout: Function, user: any, loggedIn: b
         document.cookie = 'x-auth-token=';
     }
 
+    let hasCurrentSudoku = true;
+    if(!currentSudoku) hasCurrentSudoku = false;
+    else if(!currentSudoku.difficulty) hasCurrentSudoku = false; 
+
     return (<header className={styles['header']}>
         <section className={styles['header-section']}>
             <h1>NeoSudoku</h1>
             <nav className={styles['nav-bar']}>
                 <ul className={styles['nav-bar-ul']}>
-                    {user?.currentSudoku?.difficulty && (<li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to={`/newGame?diff=${user.currentSudoku.difficulty}`}>Continue</Link></li>)}
+                    {hasCurrentSudoku && (<li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to={`/newGame?diff=${user?.currentSudoku?.difficulty}`}>Continue</Link></li>)}
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/getStarted">Getting started</Link></li>
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/articles?page=1">Useful tips and articles</Link></li>
                     <li className={styles['nav-bar-ul-li']}><Link className={styles['nav-bar-ul-li-a']} to="/sudokuSolver">Sudoku solver</Link></li>
                     {loggedIn ? (<>
-                        {!user?.currentSudoku?.difficulty && (<li className={styles['nav-bar-ul-li']}>
+                        {!hasCurrentSudoku && (<li className={styles['nav-bar-ul-li']}>
                             <div className={styles['dropdown']}>
                                 <Link className={styles['nav-bar-ul-li-a']} to="#">New game</Link>
                                 <div className={styles["dropdown-content"]}>
@@ -52,7 +58,8 @@ const Header: React.FunctionComponent<{ logout: Function, user: any, loggedIn: b
 export default connect((state: any) => {
     return {
         user: state?.auth.user,
-        loggedIn: state?.auth.loggedIn
+        loggedIn: state?.auth.loggedIn,
+        currentSudoku: state?.currentSudoku
     }
 }, (dispatch) => {
     return {
