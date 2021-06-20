@@ -87,6 +87,24 @@ const GameControls: React.FunctionComponent<Props> = ({ sudoku, currentSudokuObj
         else setDigit(lastLog.digit, lastLog.coordinates[0], lastLog.coordinates[1]);
         returnHistory();
     }
+    const handleSurrender = async () => {
+        const ratingPoints = -20;
+        const date = new Date(currentSudokuObject.date);
+        await sudokuApi.addSudokuToSolved(user._id,
+            date, currentSudokuObject.difficulty,
+            currentSudokuObject.type, ratingPoints).catch(err => console.log(err));
+        await sudokuApi.setRating(user._id, currentSudokuObject.type,
+            user.ratingsByType[currentSudokuObject.type] + ratingPoints)
+            .catch(err => console.log(err));
+        await sudokuApi.setCurrentSudoku(null, user._id)
+            .catch(err => console.log(err));
+        setIsSolved();
+        addToSolved(date, currentSudokuObject.difficulty,
+            currentSudokuObject.type, ratingPoints);
+        setSudoku({});
+        routerHistory.push('/')
+
+    }
     return (<div className={styles["game-controls"]}>
         <div className={styles["options-menu"]}>
             <button type="button" onClick={handleReturn}>Return</button>
@@ -98,7 +116,10 @@ const GameControls: React.FunctionComponent<Props> = ({ sudoku, currentSudokuObj
                 return (<button key={'button ' + i} onClick={(e1) => handleClick(e)}>{e}</button>)
             })}
         </div>
-        <button onClick={handleFinish}>Finish</button>
+        <div className={styles['finish-buttons']}>
+            <button className={styles['surrender']} onClick={handleSurrender}><i className="fas fa-times-circle fa-3x"></i></button>
+            <button className={styles['finish']} onClick={handleFinish}>Finish</button>
+        </div>
     </div>)
 }
 
