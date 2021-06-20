@@ -81,7 +81,7 @@ const NewGamePage: React.FunctionComponent<Props> = ({ userId, currentSudoku,
                 </section>
 
             </main>
-            <LastSudokusAside solvedSudokus={!!solvedSudokus.length ? solvedSudokus : [{ ratingPoints: '' }]} />
+            <LastSudokusAside solvedSudokus={!!solvedSudokus.length ? solvedSudokus : []} />
         </div>
     </>);
 }
