@@ -8,7 +8,8 @@ const sudokuReducer : any = (state = {
     difficulty: '',
     type: 'classical',
     boxOnFocus: [0, 0],
-    history: [{coordinates: [0,0]}]
+    history: [{coordinates: [0,0]}],
+    isSolved: false
 }, action: { type: string; payload: any}) => {
     switch(action.type) {
         case actionTypes.SET_CURRENT_SUDOKU: {
@@ -48,6 +49,11 @@ const sudokuReducer : any = (state = {
             newHistory.pop();
             return {
                 ...state, history: newHistory
+            }
+        }
+        case actionTypes.SET_SOLVED: {
+            return {
+                ...state, isSolved: true
             }
         }
         default: return state;
