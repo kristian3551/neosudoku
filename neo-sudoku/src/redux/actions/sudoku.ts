@@ -66,5 +66,11 @@ const returnHistory = () => {
     }
 }
 
+const setIsSolved = () => {
+    return {
+        type: actionTypes.SET_SOLVED
+    }
+}
+
 export default { setSudoku, setDigit, setBoxOnFocus, addSudokuToSolved, deleteCurrentSudoku, addToHistory,
-    returnHistory };
+    returnHistory, setIsSolved };

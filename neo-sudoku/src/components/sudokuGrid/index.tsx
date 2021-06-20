@@ -4,14 +4,16 @@ import styles from './styles.module.css';
 import sudokuActions from '../../redux/actions/sudoku';
 
 interface Props { 
-    sudoku: any; 
+    sudoku: any;
+    currentSudoku: any; 
     setDigit: Function;
     setBoxOnFocus: Function;
     defaultMatrix: any;
     addToHistory: Function;
+    userId: string;
 }
 
-const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, setDigit, setBoxOnFocus, addToHistory }) => {
+const SudokuGrid : React.FunctionComponent<Props> = ({ sudoku, defaultMatrix, userId, currentSudoku, setDigit, setBoxOnFocus, addToHistory }) => {
     const handleFocus = (i: number, j: number) => {
         setBoxOnFocus(i, j);
     }
@@ -20,7 +22,7 @@ const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, se
         return square.map((e,i) => {
             return (<input className={defaultMatrix[squareIndex][i] !== 0 ? styles['defaultCharacters'] : ''} key={`input-${i}-${squareIndex}`} type="text" 
                 value={e !== 0 ? e : ''} disabled = {defaultMatrix[squareIndex][i] !== 0}
-                onChange={(e1) => {
+                onChange={async (e1) => {
                     const digit = e1.target.value ? +e1.target.value: 0;
                     addToHistory(digit === 0 ? 'removed' : 'added', digit === 0 ? e : digit, squareIndex, i);
                     setDigit(digit, squareIndex, i);
@@ -38,9 +40,11 @@ const SudokuGrid : React.FunctionComponent<Props> = ({ defaultMatrix, sudoku, se
 </div>);
 }
 
-export default connect((state: { currentSudoku: any; }) => {
+export default connect((state: { currentSudoku: any; auth: any; }) => {
     return {
-        defaultMatrix: state?.currentSudoku.defaultMatrix
+        defaultMatrix: state?.currentSudoku.defaultMatrix,
+        currentSudoku: state?.currentSudoku,
+        userId: state?.auth.user._id
     }
 }, (dispatch) => {
     return {
