@@ -44,7 +44,7 @@ const GameControls: React.FunctionComponent<Props> = ({ sudoku, currentSudokuObj
         const date = new Date(currentSudokuObject.date);
         const ratingPoints = calculateRating(user.ratingsByType[currentSudokuObject.type],
             currentSudokuObject.rating, user.solvedSudokus.length, hintsCount);
-        // if (isSolved) {
+        if (isSolved) {
             try {
                 await sudokuApi.addSudokuToSolved(user._id,
                     date, currentSudokuObject.difficulty,
@@ -62,10 +62,10 @@ const GameControls: React.FunctionComponent<Props> = ({ sudoku, currentSudokuObj
             } catch (error) {
                 console.log(error);
             }
-        // }
-        // else {
-        //     console.log('Nope');
-        // }
+        }
+        else {
+            console.log('Nope');
+        }
     }
     const handleDelete = () => {
         const digit = sudoku[coordinates[0]][coordinates[1]];
