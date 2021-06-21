@@ -19,8 +19,8 @@ const LastSudokusAside : React.FunctionComponent<{
     }>) => React.ReactNode = (arr) => {
         return arr.map((e, i) => {
             return (<li key={i}>
-                <p>Diff.: {e.difficulty}</p>
-                <p>Type: {e.type}</p>
+                <p>{e.difficulty}</p>
+                <p>{e.type}</p>
                 {/* {e.solved ? (<i className="fas fa-check"></i>) : (<i className="fas fa-times"></i>)} */}
                 <p>{e.ratingPoints > 0 ? `+${e.ratingPoints.toFixed(2)}` 
                 : e.ratingPoints.toFixed(2)}pts</p>
