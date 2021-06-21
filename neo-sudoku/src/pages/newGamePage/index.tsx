@@ -5,7 +5,7 @@ import SudokuGrid from '../../components/sudokuGrid';
 import LastSudokusAside from '../../components/lastSudokusAside';
 import GameControls from '../../components/gameControls';
 import { Redirect, useLocation } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import sudokuApi from '../../services/sudokus';
 import sudokuActions from '../../redux/actions/sudoku';
 
@@ -44,15 +44,9 @@ const NewGamePage: React.FunctionComponent<Props> = ({ userId, currentSudoku,
     useEffect(() => {
         return () => {
             if (window.location.pathname !== '/newGame' && !isSolved) {
-                console.log('In useEffect without finish');
-                console.log(currentSudoku);
                 sudokuApi.setCurrentSudoku(currentSudoku, userId)
                     .then(e => e.json())
-                    .then(e => console.log(e))
                     .catch(e => console.log('Error'));
-            }
-            else {
-                console.log('WITH finish');
             }
         }
     });
@@ -71,7 +65,7 @@ const NewGamePage: React.FunctionComponent<Props> = ({ userId, currentSudoku,
                     </div>
                     <div className={styles["sudokuGameWrapper"]}>
                         <div className={styles['sudokuUpperContainer']}>
-                            <SudokuGrid sudoku={JSON.parse(JSON.stringify(currentSudoku.matrix))} />
+                            <SudokuGrid sudoku={!!currentSudoku.matrix ? JSON.parse(JSON.stringify(currentSudoku.matrix)) : []} />
                         </div>
                         <div className={styles['nextToSudoku']}>
                             <GameControls />

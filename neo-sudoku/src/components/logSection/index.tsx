@@ -18,10 +18,10 @@ type RenderFC = (arr: Array<any>) => React.ReactNode;
 const LogSection: React.FunctionComponent<Props> = ({ logs }) => {
 
     const aggregatedLogs : any = aggregateLogs(logs);
-    console.log(aggregatedLogs);
+    
     const renderLogs: RenderFC = (logs) => {
         return logs.map((e, i) => {
-            return <Log date={e.date} countOfSudokus={e.countOfSudokus}
+            return <Log key={`log-${i}`} date={e.date} countOfSudokus={e.countOfSudokus}
                 ratingPoints={e.ratingPoints} />
         })
     }

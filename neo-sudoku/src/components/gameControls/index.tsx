@@ -1,71 +1,36 @@
 import React, { useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import styles from './styles.module.css';
 import sudokuActions from '../../redux/actions/sudoku';
 import { connect } from 'react-redux';
-import { checkSudoku } from '../../utils/checkSudoku';
 import sudokuApi from '../../services/sudokus';
-import calculateRating from '../../utils/calculateRating';
 import { convertInRegularSudoku } from '../../utils/checkSudoku';
+import FinishButtons from '../../components/finishButtons';
 
 type Props = {
     sudoku: Array<Array<number>>;
     setDigit: Function;
     coordinates: Array<number>;
-    user: any;
-    addToSolved: Function;
     addToHistory: Function;
     returnHistory: Function;
     currentSudokuObject: any;
     history: any;
-    setSudoku: any;
-    setIsSolved: Function;
 };
 
 const GameControls: React.FunctionComponent<Props> = ({ sudoku, currentSudokuObject,
-    setDigit, coordinates, user, addToSolved, history,
-    addToHistory, returnHistory, setSudoku, setIsSolved }) => {
+    setDigit, coordinates, history,
+    addToHistory, returnHistory}) => {
     const [hintsCount, setHintsCount] = useState(0);
     const solvedSudoku: any = useMemo(async () => {
         return await sudokuApi.solveSudoku(currentSudokuObject.defaultMatrix)
             .then(e => e.json())
             .then(e => e);
     }, [currentSudokuObject.defaultMatrix])
-    const routerHistory = useHistory();
 
     const handleClick = async (e: number) => {
         const prevDigit = sudoku[coordinates[0]][coordinates[1]];
         setDigit(e, coordinates[0], coordinates[1]);
         if (prevDigit) addToHistory('replaced', prevDigit, coordinates[0], coordinates[1])
         else addToHistory('added', e, coordinates[0], coordinates[1]);
-    }
-    const handleFinish = async () => {
-        const isSolved = checkSudoku(sudoku);
-        const date = new Date(currentSudokuObject.date);
-        const ratingPoints = calculateRating(user.ratingsByType[currentSudokuObject.type],
-            currentSudokuObject.rating, user.solvedSudokus.length, hintsCount);
-        if (isSolved) {
-            try {
-                await sudokuApi.addSudokuToSolved(user._id,
-                    date, currentSudokuObject.difficulty,
-                    currentSudokuObject.type, ratingPoints).catch(err => console.log(err));
-                await sudokuApi.setRating(user._id, currentSudokuObject.type,
-                    user.ratingsByType[currentSudokuObject.type] + ratingPoints)
-                    .catch(err => console.log(err));
-                await sudokuApi.setCurrentSudoku(null, user._id)
-                    .catch(err => console.log(err));
-                setIsSolved();
-                addToSolved(date, currentSudokuObject.difficulty,
-                    currentSudokuObject.type, ratingPoints);
-                setSudoku({});
-                routerHistory.push('/')
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        else {
-            console.log('Nope');
-        }
     }
     const handleDelete = () => {
         const digit = sudoku[coordinates[0]][coordinates[1]];
@@ -75,7 +40,6 @@ const GameControls: React.FunctionComponent<Props> = ({ sudoku, currentSudokuObj
     const handleHint = async () => {
         let solvedObject = await solvedSudoku;
         solvedObject = convertInRegularSudoku(solvedObject);
-        console.log(solvedObject);
         const digit = solvedObject[coordinates[0]][coordinates[1]];
         setDigit(digit, coordinates[0], coordinates[1]);
         setHintsCount(hintsCount + 1);
@@ -98,7 +62,7 @@ const GameControls: React.FunctionComponent<Props> = ({ sudoku, currentSudokuObj
                 return (<button key={'button ' + i} onClick={(e1) => handleClick(e)}>{e}</button>)
             })}
         </div>
-        <button onClick={handleFinish}>Finish</button>
+        <FinishButtons hintsCount={hintsCount}/>
     </div>)
 }
 
@@ -113,12 +77,7 @@ export default connect((state: { auth: any; currentSudoku: any }) => {
 }, (dispatch) => {
     return {
         setDigit: (digit: number, i: number, j: number) => dispatch(sudokuActions.setDigit(digit, i, j)),
-        addToSolved:
-            (date: Date, difficulty: string, type: number, ratingPoints: number) =>
-                dispatch(sudokuActions.addSudokuToSolved(date, difficulty, type, ratingPoints)),
         addToHistory: (type: 'added' | 'removed' | 'replaced', digit: number, i: number, j: number) => dispatch(sudokuActions.addToHistory(type, digit, i, j)),
-        returnHistory: () => dispatch(sudokuActions.returnHistory()),
-        setSudoku: (sudoku: Object) => dispatch(sudokuActions.setSudoku(sudoku)),
-        setIsSolved: () => dispatch(sudokuActions.setIsSolved())
+        returnHistory: () => dispatch(sudokuActions.returnHistory())
     }
 })(GameControls);

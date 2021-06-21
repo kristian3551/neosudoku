@@ -26,6 +26,10 @@
     /* background-color: rgb(240, 245, 250) */
 }
 
+.big-square input:focus {
+    border: 0.5px solid black;
+}
+
 .big-square input.defaultCharacters {
     color: rgb(0, 60, 121);
     font-weight: bolder;
