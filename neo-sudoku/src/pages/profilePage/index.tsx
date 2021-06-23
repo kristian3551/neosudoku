@@ -17,9 +17,6 @@ const ProfilePage : React.FunctionComponent<{
     };
     loggedIn: boolean;
  }> = ({ user, loggedIn }) => {
-    /*
-    { 'classical': 2000,
-            'irregular (6x6)': 1500, 'irregular (8x8)': 1600}*/
     return (<>
     {!loggedIn && (<Redirect to="/login"/>)}
         <Header/>

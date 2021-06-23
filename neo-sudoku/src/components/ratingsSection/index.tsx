@@ -12,7 +12,7 @@ const RatingsSection : React.FunctionComponent<Props> = ({ ratings, solvedSudoku
     return ( <section className={styles["ratings-section"]}>
     <h2>Ratings</h2>
     <div className={styles["flex-container"]}>
-        {Object.keys(ratings).map((e,i) => {
+        {ratings && Object.keys(ratings).map((e,i) => {
             return (<article key={`article-${i}`}>
                 <h4>{e}</h4>
                 <p>{ratings[e].toFixed(2)} | {solvedSudokus.filter(e1 => e1.type == e).length} sudokus</p>

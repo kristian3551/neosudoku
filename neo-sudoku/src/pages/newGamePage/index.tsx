@@ -27,7 +27,7 @@ const NewGamePage: React.FunctionComponent<Props> = ({ userId, currentSudoku,
     const { search }: { search: any } = useLocation();
     const difficulty = search.split('=')[1];
     useEffect(() => {
-        if (!currentSudoku?.difficulty) sudokuApi.getRandomByDifficulty(difficulty)
+        if(!!currentSudoku) if (!currentSudoku?.difficulty) sudokuApi.getRandomByDifficulty(difficulty)
             .then(e => e.json())
             .then(sudoku => {
                 const defaultMatrix = JSON.parse(JSON.stringify(sudoku.matrix));
@@ -65,7 +65,7 @@ const NewGamePage: React.FunctionComponent<Props> = ({ userId, currentSudoku,
                     </div>
                     <div className={styles["sudokuGameWrapper"]}>
                         <div className={styles['sudokuUpperContainer']}>
-                            <SudokuGrid sudoku={!!currentSudoku.matrix ? JSON.parse(JSON.stringify(currentSudoku.matrix)) : []} />
+                            <SudokuGrid sudoku={!!currentSudoku ? JSON.parse(JSON.stringify(currentSudoku.matrix)) : []} />
                         </div>
                         <div className={styles['nextToSudoku']}>
                             <GameControls />
@@ -75,7 +75,7 @@ const NewGamePage: React.FunctionComponent<Props> = ({ userId, currentSudoku,
                 </section>
 
             </main>
-            <LastSudokusAside solvedSudokus={!!solvedSudokus.length ? solvedSudokus : []} />
+            <LastSudokusAside solvedSudokus={!!solvedSudokus ? solvedSudokus : []} />
         </div>
     </>);
 }
