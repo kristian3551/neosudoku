@@ -9,7 +9,8 @@ enum actionTypes {
     DELETE_CURRENT_SUDOKU = 'DELETE_CURRENT_SUDOKU',
     ADD_TO_HISTORY = 'ADD_TO_HISTORY',
     RETURN_HISTORY = 'RETURN_HISTORY',
-    SET_SOLVED = 'SET_SOLVED'
+    SET_SOLVED = 'SET_SOLVED',
+    SET_MESSAGE = 'SET_MESSAGE'
 };
 
 export default actionTypes;

@@ -5,12 +5,14 @@ import userApi from '../../services/auth';
 import { connect } from 'react-redux';
 import authActions from '../../redux/actions/auth';
 import sudokuActions from '../../redux/actions/sudoku';
+import messagesActions from '../../redux/actions/messages';
 
 type HandleChangeType = (e: React.ChangeEvent<HTMLInputElement>,
     type: 'username' | 'password') => void;
 
-const LoginForm : React.FunctionComponent<{ login: Function, setCurrentSudoku: Function }>
-     = ({ login, setCurrentSudoku }) => {
+const LoginForm : React.FunctionComponent<{ login: Function, setCurrentSudoku: Function;
+    setMessage: Function; }>
+     = ({ login, setCurrentSudoku, setMessage }) => {
     const [username, setUsername] = React.useState<string>('');
     const [password, setPassword] = React.useState<string>('');
     const history = useHistory();
@@ -33,11 +35,15 @@ const LoginForm : React.FunctionComponent<{ login: Function, setCurrentSudoku: F
             .then((user) => {
                 login(user);
                 if(user.currentSudoku?._id) {
-                    console.log('Setting current');
                     setCurrentSudoku(user.currentSudoku);
+                    setMessage('success', 'Successfully logged in!');
+                    history.push('/');
                 }
-            });
-        history.push('/');
+            })
+            .catch(err => {
+                setMessage('error', 'User does not exist')
+            })
+        
     }
 
     return (<form className={styles['form']} action="">
@@ -61,6 +67,8 @@ const LoginForm : React.FunctionComponent<{ login: Function, setCurrentSudoku: F
 export default connect(null, (dispatch) => {
     return {
         login: (user: any) => dispatch(authActions.login(user)),
-        setCurrentSudoku: (currentSudoku: any) => dispatch(sudokuActions.setSudoku(currentSudoku))
+        setCurrentSudoku: (currentSudoku: any) => dispatch(sudokuActions.setSudoku(currentSudoku)),
+        setMessage: (messageType: string, message: string) =>
+            dispatch(messagesActions.setMessage(messageType, message))
     }
 })(LoginForm);

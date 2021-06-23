@@ -17,7 +17,7 @@ type RenderFC = (arr: Array<any>) => React.ReactNode;
 
 const LogSection: React.FunctionComponent<Props> = ({ logs }) => {
 
-    const aggregatedLogs : any = aggregateLogs(logs);
+    const aggregatedLogs : any = logs ? aggregateLogs(logs) : [];
     
     const renderLogs: RenderFC = (logs) => {
         return logs.map((e, i) => {
@@ -29,7 +29,7 @@ const LogSection: React.FunctionComponent<Props> = ({ logs }) => {
     return (
         <section className={styles["log-section"]}>
         <h2>Activities</h2>
-            {renderLogs(Object.keys(aggregatedLogs).sort((a: any,b: any) => {
+            {logs && renderLogs(Object.keys(aggregatedLogs).sort((a: any,b: any) => {
                 const date1 = new Date(aggregatedLogs[a][0].date);
                 const date2 = new Date(aggregatedLogs[b][0].date);
                 return date2.getTime() - date1.getTime();
