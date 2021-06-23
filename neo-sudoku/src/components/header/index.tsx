@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import actions from '../../redux/actions/auth';
 import sudokuActions from '../../redux/actions/sudoku';
 import { useDispatch } from 'react-redux';
+import messagesActions from '../../redux/actions/messages';
 
 const Header: React.FunctionComponent<{
      logout: Function, user: any, loggedIn: boolean, currentSudoku: any
@@ -15,6 +16,7 @@ const Header: React.FunctionComponent<{
         logout();
         dispatch(sudokuActions.deleteCurrentSudoku());
         document.cookie = 'x-auth-token=';
+        dispatch(messagesActions.setMessage('success', 'Successfully logged out!'));
     }
 
     let hasCurrentSudoku = true;
@@ -63,6 +65,8 @@ export default connect((state: any) => {
     }
 }, (dispatch) => {
     return {
-        logout: () => dispatch(actions.logout())
+        logout: () => dispatch(actions.logout()),
+        setMessage: (messageType: string, message: string) =>
+            dispatch(messagesActions.setMessage(messageType, message))
     }
 })(Header);
